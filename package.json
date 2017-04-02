@@ -1,0 +1,28 @@
+{
+  "name": "trade-boutique",
+  "version": "1.0.0",
+  "description": "Trade Boutique is an intuitive and easy to use stock trading platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "mean",
+    "stack",
+    "trading",
+    "stock",
+    "platform"
+  ],
+  "author": "Daniel Nitu",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "currency-formatter": "^1.2.0",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.2",
+    "underscore": "^1.8.3",
+    "wagner-core": "^0.2.0"
+  }
+}
