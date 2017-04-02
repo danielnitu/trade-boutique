@@ -24,5 +24,8 @@
     "mongoose": "^4.9.2",
     "underscore": "^1.8.3",
     "wagner-core": "^0.2.0"
+  },
+  "devDependencies": {
+    "standard": "^9.0.2"
   }
 }
