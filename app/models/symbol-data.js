@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var SymbolDataSchema = new mongoose.Schema({
 
-  symbol: {type: String, required: true},
+  symbol: {type: String, required: true, uppercase: true},
   company: {type: String, required: true},
   yearHigh: {type: Number},
   yearLow: {type: Number},

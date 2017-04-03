@@ -16,7 +16,7 @@ exports.testUser1 = {
       }],
     pass: 'test1'
   },
-  stock: [{
+  portfolio: [{
     symbol: 'AAPL',
     company: 'Apple Inc.',
     price: 125.26,
@@ -43,7 +43,7 @@ exports.testUser2 = {
       }],
     pass: 'test1'
   },
-  stock: [{
+  portfolio: [{
     symbol: 'AAPL',
     company: 'Apple Inc.',
     price: 125.26,

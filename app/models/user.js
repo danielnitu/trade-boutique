@@ -32,8 +32,8 @@ var UserSchema = new mongoose.Schema({
     lockUntil: {type: Number}
   },
 
-  stock: [{
-    symbol: {type: String, required: true},
+  portfolio: [{
+    symbol: {type: String, required: true, uppercase: true},
     company: {type: String},
     price: {type: Number, required: true},
     currency: {type: String, enum: CURRENCIES, default: DEFAULT_CURRENCY},

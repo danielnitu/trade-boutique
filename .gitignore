@@ -52,8 +52,8 @@ typings/
 # dotenv environment variables file
 .env
 
-# User files
-db_structure.txt
+# User files/folders
+z.notes/
 
 
 # End of https://www.gitignore.io/api/node

@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var SymbolHistorySchema = new mongoose.Schema({
 
-  symbol: {type: String, required: true},
+  symbol: {type: String, required: true, uppercase: true},
   quotes: [{
     date: {type: Date, required: true},
     values: {
