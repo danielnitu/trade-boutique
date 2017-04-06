@@ -3,10 +3,11 @@ var mongoose = require('mongoose')
 var PriceSchema = new mongoose.Schema({
 
   symbol: {type: String, required: true, uppercase: true},
-  price: {type: Number, required: true}
+  price: {type: Number, required: true},
+  market: {type: String, required: true}
 
 })
 
-PriceSchema.index({symbol: 'text'})
+PriceSchema.index({symbol: 1})
 
 module.exports = PriceSchema

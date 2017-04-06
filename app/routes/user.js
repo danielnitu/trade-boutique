@@ -6,5 +6,22 @@ module.exports = function (wagner) {
 
   api.use(bodyparser.json())
 
-  api.get()
+  // NEWS BY STOCK SYMBOL
+  api.get('/:symbol', wagner.invoke(function (News) {
+    return function (req, res) {
+      News.findOne({symbol: req.params.symbol}, function (err, news) {
+        if (err) {
+          return res
+            .status(500)
+            .json({error: err.toString()})
+        }
+        if (!news) {
+          return res
+            .status(404)
+            .json({error: 'No news for ' + req.params.symbol})
+        }
+        res.json({news: news})
+      })
+    }
+  }))
 }

@@ -1,10 +1,15 @@
 var express = require('express')
-var bodyParser = require('body-parser')
+var wagner = require('wagner-core')
+
+var ROUTES = './app/routes/'
+
+require('./app/models/index')(wagner)
 
 var app = express()
+var port = process.env.PORT || 3000
 
-app.set('port', process.env.PORT || 3000)
+app.use('/api/news', require(ROUTES + 'news')(wagner))
 
-app.listen(app.get('port'), function () {
-  console.log('Server running on port ' + app.get('port'))
+app.listen(port, function () {
+  console.log('Server running on port ' + port)
 })
