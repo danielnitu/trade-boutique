@@ -7,21 +7,23 @@ module.exports = function (wagner) {
   api.use(bodyparser.json())
 
   // NEWS BY STOCK SYMBOL
-  api.get('/:symbol', wagner.invoke(function (News) {
+  api.get('/:symbol', wagner.invoke(function (SymbolData) {
     return function (req, res) {
-      News.findOne({symbol: req.params.symbol}, function (err, news) {
+      SymbolData.findOne({symbol: req.params.symbol}, function (err, data) {
         if (err) {
           return res
             .status(500)
             .json({error: err.toString()})
         }
-        if (!news) {
+        if (!data) {
           return res
             .status(404)
-            .json({error: 'No news for ' + req.params.symbol})
+            .json({error: 'No data for ' + req.params.symbol})
         }
-        res.json({news: news})
+        res.json({data: data})
       })
     }
   }))
+
+  return api
 }

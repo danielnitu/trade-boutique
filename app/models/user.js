@@ -26,8 +26,8 @@ var UserSchema = new mongoose.Schema({
       currency: {type: String, enum: CURRENCIES, default: DEFAULT_CURRENCY},
       cash: {type: Number, required: true}
     }],
-    oauth: {type: String, default: ''},
-    pass: {type: String},
+    token: {type: String, default: ''},
+    password: {type: String},
     loginAttempts: {type: String, required: true, default: 0},
     lockUntil: {type: Number}
   },
@@ -58,11 +58,11 @@ UserSchema.pre('save', function (next) {
 
   if (user.data.oauth !== '') { return next() }
 
-  if (!user.isDirectModified('data.pass')) { return next() }
+  if (!user.isDirectModified('data.password')) { return next() }
 
-  bcrypt.hash(user.data.pass, SALT_ROUNDS, function (err, hash) {
+  bcrypt.hash(user.data.password, SALT_ROUNDS, function (err, hash) {
     if (err) return next(err)
-    user.data.pass = hash
+    user.data.password = hash
     next()
   })
 })
@@ -87,7 +87,7 @@ UserSchema.methods.showFunds = function (currency) {
 }
 
 UserSchema.methods.comparePassword = function (userPass, cb) {
-  bcrypt.compare(userPass, this.data.pass, function (err, isMatch) {
+  bcrypt.compare(userPass, this.data.password, function (err, isMatch) {
     if (err) return cb(err)
     cb(null, isMatch)
   })
