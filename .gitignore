@@ -55,6 +55,7 @@ typings/
 # User files/folders
 z.notes/
 db_populate/
+.config
 
 
 # End of https://www.gitignore.io/api/node

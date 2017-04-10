@@ -9,7 +9,7 @@ var DEFAULT_CURRENCY = 'USD'
 
 // RegExp for matching email address + error message
 var emailMatch = [
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   'Email {VALUE} is invalid!']
 
 var UserSchema = new mongoose.Schema({
@@ -26,7 +26,7 @@ var UserSchema = new mongoose.Schema({
       currency: {type: String, enum: CURRENCIES, default: DEFAULT_CURRENCY},
       cash: {type: Number, required: true}
     }],
-    token: {type: String, default: ''},
+    oauth: {type: String, default: ''},
     password: {type: String},
     loginAttempts: {type: String, required: true, default: 0},
     lockUntil: {type: Number}
@@ -52,6 +52,22 @@ UserSchema.virtual('isLocked').get(function () {
   return !!(this.data.lockUntil && this.data.lockUntil > Date.now())
 })
 
+UserSchema.pre('save', function (next) {
+  var user = this
+
+  if (user.isDirectModified('data.password') || user.isNew) {
+    bcrypt.hash(user.data.password, SALT_ROUNDS, function (err, hash) {
+      if (err) return next(err)
+
+      user.data.password = hash
+      next()
+    })
+  } else {
+    return next()
+  }
+})
+
+/*
 // hash the user password before saving it
 UserSchema.pre('save', function (next) {
   var user = this
@@ -66,6 +82,7 @@ UserSchema.pre('save', function (next) {
     next()
   })
 })
+*/
 
 // return user funds for one or all currencies in readable format
 UserSchema.methods.showFunds = function (currency) {
