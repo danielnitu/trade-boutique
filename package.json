@@ -30,6 +30,13 @@
     "wagner-core": "^0.2.0"
   },
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
     "standard": "^9.0.2"
+  },
+  "standard": {
+    "globals": [
+      "angular"
+    ]
   }
 }
