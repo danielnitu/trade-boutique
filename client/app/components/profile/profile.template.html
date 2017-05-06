@@ -1,0 +1,20 @@
+<md-content class="md-padding" layout="column">
+  <md-card>
+
+    <md-card-title layout="row">
+      <md-card-title-media>
+        <img class="md-media-lg card-media" ng-src="{{ profile.profile.picture }}">
+      </md-card-title-media>
+
+      <md-card-title-text layout-padding>
+        <span class="md-headline">{{ profile.profile.nickname }}</span>
+        <span class="md-subhead">{{ profile.profile.email }}</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <md-card-content>
+      <span class="md-header">Funds: {{profile.funds | currency}}</span>
+    </md-card-content>
+
+  </md-card>
+</md-content>

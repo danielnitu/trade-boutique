@@ -12,7 +12,7 @@ var SymbolDataSchema = new mongoose.Schema({
   EBITDA: {type: String},
   PERatio: {type: Number},
   dividendPayDate: {type: String}
-})
+}, {timestamps: true})
 
 SymbolDataSchema.index({symbol: 1})
 

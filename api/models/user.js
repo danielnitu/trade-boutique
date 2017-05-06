@@ -1,46 +1,63 @@
 var mongoose = require('mongoose')
-var bcrypt = require('bcrypt')
-
-var SALT_ROUNDS = 10
-var MAX_LOGIN_ATTEMPTS = 5
-var LOCK_TIME = 15 * 60 * 1000 // 15 min
-var CURRENCIES = ['USD', 'EUR', 'GBP']
-var DEFAULT_CURRENCY = 'USD'
-
-// RegExp for matching email address + error message
-var emailMatch = [
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  'Email {VALUE} is invalid!']
 
 var UserSchema = new mongoose.Schema({
 
-  email: {type: String, required: true, lowercase: true, unique: true, match: emailMatch},
+  email: {type: String, required: true, lowercase: true, unique: true},
+
+  funds: {type: Number, required: true},
 
   profile: {
-    fullName: {type: String, required: true},
+    fullName: {type: String},
     picture: {type: String, match: /^(https?:\/\/)/i}
-  },
-
-  data: {
-    funds: [{
-      currency: {type: String, enum: CURRENCIES, default: DEFAULT_CURRENCY},
-      cash: {type: Number, required: true}
-    }],
-    oauth: {type: String, default: ''},
-    password: {type: String},
-    loginAttempts: {type: String, required: true, default: 0},
-    lockUntil: {type: Number}
   },
 
   portfolio: [{
     symbol: {type: String, required: true, uppercase: true},
     company: {type: String},
     price: {type: Number, required: true},
-    currency: {type: String, enum: CURRENCIES, default: DEFAULT_CURRENCY},
-    shares: {type: Number, required: true}
+    quantity: {type: Number, required: true},
+    modified: {type: Date, default: Date.now()}
   }]
 
-}, {timestamps: true}) // schema options
+}, {timestamps: true})
+
+/*
+
+THE USER SCHEMA WAS GOING TO BE MUCH MORE ELABORATE,
+THAT'S WHY THERE'S A LOT OF COMMENTED CODE BELOW
+
+WHEN I SWITCHED TO AUTH0 AUTHENTICATION, ALL THE SCHEMA'S
+AUTHENTICATION METHODS BECAME OBSOLETE
+
+THE USE OF DIFFERENT TYPES OF CURRENCIES IS ONE OF THE
+THINGS ON MY TODO LIST
+
+var bcrypt = require('bcrypt')
+
+var CURRENCIES = ['USD', 'EUR', 'GBP']
+var DEFAULT_CURRENCY = 'USD'
+
+var SALT_ROUNDS = 10
+var MAX_LOGIN_ATTEMPTS = 5
+var LOCK_TIME = 15 * 60 * 1000 // 15 min
+
+// RegExp for matching email address + error message
+var emailMatch = [
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  'Email {VALUE} is invalid!']
+
+// Part of user schema
+  funds: [{
+    currency: {type: String, enum: CURRENCIES, default: DEFAULT_CURRENCY},
+    cash: {type: Number, required: true}
+  }],
+
+  data: {
+    oauth: {type: String, default: ''},
+    password: {type: String},
+    loginAttempts: {type: String, required: true, default: 0},
+    lockUntil: {type: Number}
+  },
 
 var currencySymbols = {'USD': '$', 'EUR': '€', 'GBP': '£'}
 
@@ -67,7 +84,6 @@ UserSchema.pre('save', function (next) {
   }
 })
 
-/*
 // hash the user password before saving it
 UserSchema.pre('save', function (next) {
   var user = this
@@ -82,12 +98,11 @@ UserSchema.pre('save', function (next) {
     next()
   })
 })
-*/
 
 // return user funds for one or all currencies in readable format
 UserSchema.methods.showFunds = function (currency) {
   var allFunds = []
-  var userFunds = this.data.funds
+  var userFunds = this.funds
   for (var i = 0; i < userFunds.length; i++) {
     var humanReadableFunds = currencySymbols[userFunds[i].currency] + '' + userFunds[i].cash
     if (currency) {
@@ -169,5 +184,6 @@ UserSchema.statics.authenticate = function (email, password, cb) {
     })
   })
 }
+*/
 
 module.exports = UserSchema

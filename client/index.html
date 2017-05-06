@@ -1,34 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="authApp">
+
+<html lang="en">
+
 <head>
+  <meta name="author" content="Daniel Nitu">
   <meta charset="UTF-8">
-  <title>Angular Auth</title>
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Trade Boutique</title>
+
+  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
+
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+  <!-- Application style sheet -->
+  <link rel="stylesheet" type="text/css" href="assets/style.css">
+
+  <!-- Fonts, Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
   <!-- Auth0 Lock script and AngularJS module -->
   <script src="//cdn.auth0.com/js/lock-9.2.min.js"></script>
 
   <!-- Setting the right viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
-<body>
 
-  <toolbar></toolbar>
+<body ng-app="app" layout="row" ng-cloack>
 
-  <div layout-padding>
+  <sidenav layout="row"></sidenav>
+
+  <md-content layout="column" flex class="toolbar-fix">
+    <toolbar></toolbar>
     <ui-view></ui-view>
-  </div>
+  </md-content>
 
+  <!-- Angular.js, Angular Material and Angular.js libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.js"></script>
+
+  <!-- Other Angular.js related libraries -->
+  <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-storage/0.0.15/angular-storage.min.js"></script>
+  <script src="bower_components/auth0-angular/build/auth0-angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+  <script src="bower_components/ng-letter-avatar/dist/ngletteravatar.min.js"></script>
+
+  <!-- Application JS file -->
+  <script src="build/app.js"></script>
+
+  <!--
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-aria/angular-aria.js"></script>
   <script src="bower_components/angular-material/angular-material.js"></script>
-  <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
   <script src="bower_components/a0-angular-storage/dist/angular-storage.js"></script>
-  <script src="bower_components/auth0-angular/build/auth0-angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  -->
 
-  <script src="app/app.js"></script>
-  <script src="app/components/toolbar/toolbar.dir.js"></script>
-  <script src="app/components/profile/profile.ctr.js"></script>
 </body>
 </html>

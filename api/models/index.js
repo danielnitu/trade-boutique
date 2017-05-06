@@ -19,6 +19,7 @@ module.exports = function (wagner) {
   var SymbolHistory = mongoose.model('SymbolHistory', require('./symbol-history'), 'symbol-history')
   var SymbolData = mongoose.model('SymbolData', require('./symbol-data'), 'symbol-data')
   var News = mongoose.model('News', require('./news'), 'news')
+  var RisersFallers = mongoose.model('RisersFallers', require('./risers-fallers'), 'risers-fallers')
 
   var models = {
     User: User,
@@ -26,7 +27,8 @@ module.exports = function (wagner) {
     Price: Price,
     SymbolHistory: SymbolHistory,
     SymbolData: SymbolData,
-    News: News
+    News: News,
+    RisersFallers: RisersFallers
   }
 
   _.each(models, function (value, key) {

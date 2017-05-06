@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyparser = require('body-parser')
+var getNews = require('../services/news')
 
 module.exports = function (wagner) {
   var api = express.Router()
@@ -7,7 +8,7 @@ module.exports = function (wagner) {
   api.use(bodyparser.json())
 
   // NEWS BY STOCK SYMBOL
-  api.get('/:symbol', wagner.invoke(function (News) {
+  api.get('/symbol/:symbol', wagner.invoke(function (News) {
     return function (req, res) {
       News.findOne({symbol: req.params.symbol.toUpperCase()}, function (err, news) {
         if (err) {
@@ -16,9 +17,26 @@ module.exports = function (wagner) {
             .json({error: err.toString()})
         }
         if (!news) {
-          return res
-            .status(404)
-            .json({error: 'No news for ' + req.params.symbol})
+          getNews(req.params.symbol, News, function (err, news) {
+            if (err) {
+              res.json({error: err.toString()})
+            } else {
+              res.json({news: news})
+            }
+          })
+        } else {
+          res.json({news: news})
+        }
+      })
+    }
+  }))
+
+  // RANDOM NEWS ARTICLES
+  api.get('/random', wagner.invoke(function (News) {
+    return function (req, res) {
+      News.aggregate([{$sample: {size: 5}}], function (err, news) {
+        if (err) {
+          res.json({error: err.toString()})
         }
         res.json({news: news})
       })

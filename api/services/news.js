@@ -4,33 +4,34 @@ var newsClient = new Client()
 
 var YAHOO_NEWS = 'http://finance.yahoo.com/rss/headline?s='
 
-/*
-var wagner = require('wagner-core')
-require('../models/index')(wagner).News
-var News = wagner.invoke(function (News) {
-  return News
-})
-*/
-
-function getNews (symbol, News) {
+function getNews (symbol, News, cb) {
   newsClient.get(YAHOO_NEWS + symbol, function (data, res) {
-    console.log(moment().format() + ' - Connecting to Yahoo News API: ' + res.statusCode + ' (' + res.statusMessage + ')')
+    console.log(moment().format() + ' - Connecting to Yahoo News API (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
 
     if (res.statusCode === 200) {
       var news = []
-      var items = data.channel.item
+      var items = data.rss.channel
 
-      for (var i = 0; i < items.length; i++) {
-        var article = {}
-        article.title = xmlSpecialChars(items[i].title)
-        article.link = xmlSpecialChars(items[i].link)
-        article.date = xmlSpecialChars(items[i].pubDate)
-        article.description = xmlSpecialChars(items[i].description)
+      try {
+        for (var i = 0; i < 15; i++) {
+          var article = {}
+          article.title = xmlSpecialChars(items.item[i].title)
+          article.link = xmlSpecialChars(items.item[i].link)
+          article.date = xmlSpecialChars(items.item[i].pubDate)
+          article.description = xmlSpecialChars(items.item[i].description)
 
-        news.push(article)
+          news.push(article)
+        }
+        saveNews(News, symbol, news, function (err, result) {
+          if (err) {
+            cb(err, null)
+          } else {
+            cb(null, result)
+          }
+        })
+      } catch (err) {
+        cb('Yahoo API Error: no news available for this symbol!', null)
       }
-
-      saveNews(News, symbol, news)
     } else {
       // GET NEWS SOMEWHERE ELSE
 
@@ -51,39 +52,57 @@ function getNews (symbol, News) {
           var news = []
           var items = data
 
-          for (var i = 0; i < items.length; i++) {
-            var article = {}
-            article.title = items[i].title
-            article.link = items[i].url
-            article.date = items[i].publishDate
-            article.description = items[i].text.slice(0, 300)
+          try {
+            for (var i = 0; i < items.length; i++) {
+              var article = {}
+              article.title = items[i].title
+              article.link = items[i].url
+              article.date = items[i].publishDate
+              article.description = items[i].text.slice(0, 300)
 
-            // TRY TO FIND AN ARTICLE PICTURE
-            var picture = (items[i].hasOwnProperty('elements')) ? items[i].elements : null
-            article.picture = (picture.length > 0 && picture[0].hasOwnProperty('url')) ? picture[0].url : null
+              // TRY TO FIND AN ARTICLE PICTURE
+              var picture = (items[i].hasOwnProperty('elements')) ? items[i].elements : null
+              article.picture = (picture.length > 0 && picture[0].hasOwnProperty('url')) ? picture[0].url : null
 
-            news.push(article)
+              news.push(article)
+            }
+            saveNews(News, symbol, news, function (err, result) {
+              if (err) {
+                cb(err, null)
+              } else {
+                cb(null, result)
+              }
+            })
+          } catch (err) {
+            cb('Newsriver API Error: no news available for this symbol!', null)
           }
-
-          saveNews(News, symbol, news)
         } else {
           // LOG ERROR MESSAGE
 
-          console.log('News service not available: ' + res.statusCode + '-' + res.statusMessage)
+          cb('News service not available: ' + res.statusCode + '-' + res.statusMessage, null)
         }
       })
     }
+  }).on('error', function (err) {
+    cb('Request error: ' + err, null)
+  })
+
+  newsClient.on('error', function (err) {
+    cb('Error: ' + err, null)
   })
 }
 
-function saveNews (News, symbol, newsArray) {
+function saveNews (News, symbol, newsArray, cb) {
   News.findOneAndUpdate({symbol: symbol}, {
     $set: {
       news: newsArray
     }
-  }, {upsert: true}, function (err, result) {
-    if (err) throw err
-    console.log('Success!')
+  }, {upsert: true, new: true}, function (err, result) {
+    if (err) {
+      cb(err, null)
+    } else {
+      cb(null, result)
+    }
   })
 }
 

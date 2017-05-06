@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyparser = require('body-parser')
+var getPrice = require('../services/price').getPrice
 
 module.exports = function (wagner) {
   var api = express.Router()
@@ -7,20 +8,41 @@ module.exports = function (wagner) {
   api.use(bodyparser.json())
 
   // PRICE BY STOCK SYMBOL
-  api.get('/:symbol', wagner.invoke(function (Price) {
+  api.get('/:symbol/:market?', wagner.invoke(function (Price) {
     return function (req, res) {
       Price.findOne({symbol: req.params.symbol.toUpperCase()}, function (err, price) {
         if (err) {
           return res
             .status(500)
-            .json({error: err.toString()})
+            .json({error: err})
         }
         if (!price) {
-          return res
-            .status(404)
-            .json({error: 'Symbol ' + req.params.symbol + ' not found!'})
+          getPrice(Price, req.params.market, req.params.symbol, function (err, result) {
+            if (err) {
+              return res.status(400).json({error: err})
+            }
+            res.json({price: result})
+          })
+        } else {
+          res.json({price: price})
         }
-        res.json({price: price})
+      })
+    }
+  }))
+
+  // PRICES FOR MULTIPLE SYMBOLS
+  api.post('/multiple', wagner.invoke(function (Price) {
+    return function (req, res) {
+      Price.find({
+        'symbol': {$in: req.body}
+      }, function (err, prices) {
+        if (err) {
+          return res
+            .status(500)
+            .json({error: err.toString()})
+        }
+
+        res.json({prices: prices})
       })
     }
   }))

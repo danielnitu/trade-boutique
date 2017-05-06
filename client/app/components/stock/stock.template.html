@@ -1,0 +1,95 @@
+<div layout-padding ng-if="stock.noCompany" flex>
+  <h2>{{stock.noCompany}}</h2>
+</div>
+
+<md-content layout="column" ng-if="stock.company">
+  <md-card>
+    <md-card-title layout-xs="column">
+
+      <div layout="row" layout-sm="column" flex flex-sm="33">
+
+        <md-card-title-media layout-align="center center" class="stock-card-media">
+
+          <div class="md-media-lg card-media" layout="column" layout-align="center center">
+            <input type="text" ng-model="stock.avatar" ng-hide="true">
+            <ng-letter-avatar dynamic="true" data="{{stock.avatar}}" charCount="2" height="100" width="100" fontsize="60"></ng-letter-avatar>
+          </div>
+
+          <md-card-actions layout="column" layout-align="center center">
+            <md-button
+              ng-click="stock.showBuy($event, stock.company.symbol, stock.company.company)"
+              class="md-primary md-raised stock-card-btn"
+              ng-disabled="stock.error || stock.noCompany">
+              BUY
+            </md-button>
+            <md-button
+              ng-click="stock.showSell($event, stock.company.symbol)"
+              class="md-warn md-raised stock-card-btn"
+              ng-disabled="stock.error || stock.noCompany">
+              SELL
+            </md-button>
+            <md-progress-circular
+              class="home-loading"
+              ng-show="stock.loading"
+              md-diameter="30px">
+            </md-progress-circular>
+          </md-card-actions>
+
+        </md-card-title-media>
+        <md-card-title-text layout-padding>
+
+          <span class="md-headline">{{stock.company.company}}</span>
+          <span class="md-subhead">{{stock.company.symbol}}</span>
+          <span ng-show="stock.price" class="md-headline">{{stock.price | currency}}</span>
+          <span ng-show="stock.error" class="md-subhead">{{stock.error}}</span>
+          <h3>{{ user.message }}</h3>
+
+        </md-card-title-text>
+      </div>
+
+      <div hide-sm flex></div>
+
+      <md-card-content
+        class="stock-card-content"
+        flex-xs="100" flex-sm="33" flex="33"
+        layout-xs="row">
+        <div class="stock-card-info" flex>
+        <p>Market: {{stock.company.market}}</p>
+        <p>Year High: {{stock.company.yearHigh | currency}}</p>
+        <p>Year Low: {{stock.company.yearLow | currency}}</p>
+        <p>Market Cap: {{stock.company.marketCap}}</p>
+        </div>
+        <div class="stock-card-info" flex>
+        <p>Next Qt EPS Est: {{stock.company.EPSEstNextQt | currency}}</p>
+        <p>EBITDA: {{stock.company.EBITDA}}</p>
+        <p>P/E Ratio: {{stock.company.PERatio}}</p>
+        <p>Dividend Pay Date: {{stock.company.dividendPayDate}}</p>
+        </div>
+      </md-card-content>
+
+      <div hide-sm flex></div>
+
+      <md-card-content
+        class="stock-card-content"
+        ng-if="!stock.newsError"
+        flex-xs="100" flex-sm="33" flex-md="40" flex="50">
+        <md-list class="md-dense stock-news-list">
+          <span class="md-subhead" ng-show="stock.news">News</span>
+          <md-list-item
+            class="md-3-line"
+            ng-repeat="article in stock.news"
+            ng-href="{{article.link}}"
+            target="_blank">
+            <div class="md-list-item-text" layout="column">
+              <div><h3>{{ article.title }}</h3></div>
+              <div><h4>{{ article.date | date }}</h4></div>
+              <p>{{ article.description }}</p>
+            </div>
+            <md-divider md-inset></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+
+    </md-card-title>
+  </md-card>
+</md-content>

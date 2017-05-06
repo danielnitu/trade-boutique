@@ -1,0 +1,115 @@
+<md-sidenav
+  class="md-sidenav-left md-whiteframe-4dp"
+  md-is-locked-open="$mdMedia('gt-sm') && sidenav.sidenavShow"
+  md-component-id="left"
+  ng-click="sidenav.closeSidenav('left')"
+  ng-cloack>
+
+  <md-toolbar class="md-accent md-hue-3">
+    <div class="md-toolbar-tools nav-header">
+      <a ng-href="/#/home">
+        <img class="nav-header-logo" src="assets/nav-header-logo.png">
+      </a>
+    </div>
+  </md-toolbar>
+
+  <md-divider></md-divider>
+
+  <md-sidemenu>
+
+    <div class="nav-profile" layout-padding layout="row">
+      <img class="nav-profile-pic" ng-src="{{ sidenav.profile.picture }}">
+      <div layout="column">
+        <span class="nav-profile-name">{{ sidenav.profile.name }}</span>
+        <div layout="column" class="nav-profile-funds">
+          <span>Funds:</span>
+          <span>{{sidenav.funds | currency}}</span>
+        </div>
+      </div>
+    </div>
+
+    <md-sidemenu-group>
+      <md-subheader>Trade</md-subheader>
+
+      <md-sidemenu-button ng-hide="true">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column" ng-href="">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">language</i>
+            <span class="ng-scope">Watchlist</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+      <md-sidemenu-button ui-sref="portfolio">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">pie_chart</i>
+            <span class="ng-scope">Portfolio</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+      <md-sidemenu-button ui-sref="transactions">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column" ng-href="">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">history</i>
+            <span class="ng-scope">Transactions</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+      <md-sidemenu-button>
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column" ui-sref="news">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">language</i>
+            <span class="ng-scope">News</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+    </md-sidemenu-group>
+
+    <md-divider></md-divider>
+
+    <md-sidemenu-group>
+      <md-subheader>Profile</md-subheader>
+
+      <md-sidemenu-button ui-sref="profile">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">perm_identity</i>
+            <span class="ng-scope">Profile</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+      <md-sidemenu-button href="#" ng-hide="true">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column" ng-href="">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">history</i>
+            <span class="ng-scope">Settings</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+      <md-sidemenu-button ng-if="sidenav.auth.isAuthenticated" ng-click="sidenav.logout()">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">exit_to_app</i>
+            <span class="ng-scope">Logout</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+    </md-sidemenu-group>
+
+  </md-sidemenu>
+
+</md-sidenav>

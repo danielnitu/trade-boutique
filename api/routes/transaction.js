@@ -6,22 +6,23 @@ module.exports = function (wagner) {
 
   api.use(bodyparser.json())
 
-  // NEWS BY STOCK SYMBOL
-  api.get('/:symbol', wagner.invoke(function (News) {
+  // GET ENTIRE TRANSACTION HISTORY
+  api.get('/all', wagner.invoke(function (Transaction) {
     return function (req, res) {
-      News.findOne({symbol: req.params.symbol}, function (err, news) {
+      Transaction.find({email: req.user.email}, function (err, transactions) {
         if (err) {
           return res
             .status(500)
             .json({error: err.toString()})
         }
-        if (!news) {
-          return res
-            .status(404)
-            .json({error: 'No news for ' + req.params.symbol})
+        if (!transactions || transactions.length < 1) {
+          res.json({error: 'No transactions available. Go buy some shares!'})
+        } else {
+          res.json({transactions: transactions})
         }
-        res.json({news: news})
       })
     }
   }))
+
+  return api
 }

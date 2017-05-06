@@ -6,7 +6,7 @@ var PriceSchema = new mongoose.Schema({
   price: {type: Number, required: true},
   market: {type: String, required: true}
 
-})
+}, {timestamps: true})
 
 PriceSchema.index({symbol: 1})
 

@@ -1,0 +1,79 @@
+<md-dialog layout-padding>
+
+  <md-dialog-contents>
+    <p
+      ng-if="(buyDialog.stockQuantity % 1 !== 0) && (buyDialog.stockQuantity > 0)"
+      class="funds-warning">
+      Enter whole numbers!
+    </p>
+    <p
+      ng-if="(buyDialog.stockPrice * buyDialog.stockQuantity) > buyDialog.user.funds"
+      class="funds-warning">
+      Not enough funds!
+    </p>
+    <p
+      ng-if="!(buyDialog.stockQuantity > 0)"
+      class="funds-warning"
+      show-with-delay>
+      Enter a positive number!
+    </p>
+    <p>Market Price: &nbsp;<strong>{{buyDialog.stockPrice | currency}}</strong></p>
+    <p>Funds: &nbsp;<strong>{{buyDialog.user.funds | currency}}</strong></p>
+    <p>Owned Shares: &nbsp;<strong>{{buyDialog.user.stock.quantity}}</strong></p>
+    <p ng-if="buyDialog.error" class="funds-warning">
+      <strong>There was an error! {{buyDialog.error}}</strong>
+    </p>
+    <form>
+      <md-input-container class="dialog-input">
+        <label>Price</label>
+        <md-tooltip md-direction="top">Currently available only for market price</md-tooltip>
+        <input
+          type="number"
+          name="stockPrice"
+          ng-value="buyDialog.stockPrice"
+          ng-model="buyDialog.stockPrice"
+          required
+          aria-label="Stock Price"
+          disabled>
+      </md-input-container>
+
+      <md-input-container class="dialog-input">
+        <label>Quantity</label>
+        <input
+          class="dialog-input"
+          type="number"
+          name="stockQuantity"
+          ng-value="buyDialog.stockQuantity"
+          ng-model="buyDialog.stockQuantity"
+          required
+          min="1"
+          aria-label="Stock Quantity"
+          autofocus>
+      </md-input-container>
+    </form>
+    Total: <span ng-bind="buyDialog.stockPrice * buyDialog.stockQuantity | currency"></span>
+  </md-dialog-contents>
+
+  <md-dialog-actions layout="row">
+    <md-button ng-click="buyDialog.closeDialog()" class="md-raised md-warn">CANCEL</md-button>
+    <md-button
+      class="md-raised md-primary"
+      ng-disabled="
+        !buyDialog.user.funds ||
+        buyDialog.error ||
+        !(buyDialog.stockQuantity > 0) ||
+        buyDialog.stockQuantity % 1 !== 0 ||
+        ((buyDialog.stockPrice * buyDialog.stockQuantity) > buyDialog.user.funds)"
+      ng-click="buyDialog.buyStock(buyDialog.stockPrice, buyDialog.stockQuantity)">
+      <span ng-show="!buyDialog.loading">BUY</span>
+      <div layout="row" layout-align="center center">
+      <md-progress-circular
+        ng-show="buyDialog.loading"
+        class="md-warn"
+        md-diameter="25px">
+      </md-progress-circular>
+      </div>
+    </md-button>
+  </md-dialog-actions>
+
+</md-dialog>

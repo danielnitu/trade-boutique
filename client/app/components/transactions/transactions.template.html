@@ -1,0 +1,63 @@
+<md-content
+  ng-if="transactions.noTransactions"
+  class="no-stocks"
+  layout-padding
+  layout="column"
+  flex
+  layout-align="center center">
+  <div>
+    <h1 flex>{{ transactions.noTransactions }}</h1>
+    <md-button ng-hide="true" class="no-stocks-button md-raised md-primary" ui-sref="stocks">BUY</md-button>
+  </div>
+</md-content>
+
+<md-list>
+  <md-list-item id="transaction-list-item" ng-repeat="transaction in transactions.transactions">
+
+    <div layout-align="center center" layout="row" class="layout-padding transaction-symbol-div">
+      <a ui-sref="stock({symbol: transaction.symbol})" style="z-index: 1" hide-xs>
+        <md-tooltip>See details for {{transaction.company}}</md-tooltip>
+        <input type="text" ng-model="transaction.avatar" ng-hide="true">
+        <ng-letter-avatar dynamic="true" data="{{transaction.avatar}}" charCount="2" height="50" width="50" fontsize="30">
+        </ng-letter-avatar>
+      </a>
+      <div layout="column" layout-align="center center">
+        <span class="portfolio-sm-header">{{transaction.company | limitTo: 15}}</span>
+        <span class="portfolio-symbol" hide-xs>{{transaction.symbol}}</span>
+        <a ui-sref="stock({symbol: transaction.symbol})" class="stock-details-link" hide-gt-xs>
+          <span class="portfolio-symbol">{{transaction.symbol}}</span>
+        </a>
+      </div>
+    </div>
+
+    <div flex layout="row" layout-align="center center">
+      <div layout="column" layout-align="center center" flex hide-xs>
+        <span class="portfolio-sm-header">Operation:</span>
+        {{transaction.quantity < 0 ? 'SELL' : 'BUY'}}
+      </div>
+      <div layout="column" layout-align="center center" flex>
+        <span class="portfolio-sm-header">Price:</span>
+        {{transaction.price | currency}}
+      </div>
+      <div layout="column" layout-align="center center" flex>
+        <span class="portfolio-sm-header">Quantity:</span>
+        {{transaction.quantity}}
+      </div>
+      <div layout="column" layout-align="center center" flex hide-xs>
+        <span class="portfolio-sm-header">Value:</span>
+        {{(transaction.price * -transaction.quantity) | currency}}
+      </div>
+      <div layout="column" layout-align="center center" flex>
+        <span ng-if="transaction.profit" class="portfolio-sm-header">Profit:</span>
+        <span ng-if="transaction.profit > 0" class="dialog-profit">
+          {{transaction.profit | currency}}
+        </span>
+        <span ng-if="transaction.profit <= 0" class="dialog-loss">
+          {{transaction.profit | currency}}
+        </span>
+      </div>
+    </div>
+
+  <md-divider></md-divider>
+  </md-list-item>
+</md-list>

@@ -1,28 +1,64 @@
-(function () {
+;(function () {
   'use strict'
 
+  /* @ngInject */
   angular
-    .module('authApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngMaterial', 'ui.router'])
+    .module('app', [
+      'auth0', 'angular-storage', 'angular-jwt', 'ngMaterial', 'ui.router', 'ngLetterAvatar',
+      'sidenav', 'profile', 'price', 'news', 'avatar'])
     .config(config)
     .run(run)
 
-  function config ($provide, authProvider, $urlRouterProvider, $stateProvider, $httpProvider, jwtOptionsProvider) {
+  /* @ngInject */
+  function config (
+    $mdThemingProvider,
+    $provide,
+    authProvider,
+    $urlRouterProvider,
+    $stateProvider,
+    $httpProvider,
+    jwtOptionsProvider) {
     authProvider.init({
       domain: 'danielnitu.eu.auth0.com',
       clientID: '1gLOvetcrjC9GW2kEeRzEtJRJH700ia6'
     })
 
-    $urlRouterProvider.otherwise('/home')
+    $urlRouterProvider.otherwise('/welcome')
 
     $stateProvider
+      .state('welcome', {
+        url: '/welcome',
+        templateUrl: 'app/components/welcome/welcome.template.html'
+      })
       .state('home', {
         url: '/home',
-        templateUrl: 'app/components/home/home.tpl.html'
+        templateUrl: 'app/components/home/home.template.html',
+        controller: 'homeController as home'
       })
       .state('profile', {
         url: '/profile',
-        templateUrl: 'app/components/profile/profile.tpl.html',
-        controller: 'profileController as user'
+        templateUrl: 'app/components/profile/profile.template.html',
+        controller: 'profileController as profile'
+      })
+      .state('portfolio', {
+        url: '/portfolio',
+        templateUrl: 'app/components/portfolio/portfolio.template.html',
+        controller: 'portfolioController as portfolio'
+      })
+      .state('stock', {
+        url: '/stock/:symbol/:market',
+        templateUrl: 'app/components/stock/stock.template.html',
+        controller: 'stockController as stock'
+      })
+      .state('news', {
+        url: '/news/:symbol',
+        templateUrl: 'app/components/news/news.template.html',
+        controller: 'newsController as news'
+      })
+      .state('transactions', {
+        url: '/transactions',
+        templateUrl: 'app/components/transactions/transactions.template.html',
+        controller: 'transactionsController as transactions'
       })
 
     jwtOptionsProvider.config({
@@ -37,6 +73,13 @@
       }],
       whiteListedDomains: ['trade.boutique', 'localhost', 'jsonplaceholder.typicode.com']
     })
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('blue')
+      .accentPalette('grey')
+      .warnPalette('red')
+
+    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark()
 
     function redirect ($q, $injector, $timeout, store, $location) {
       var auth
@@ -70,6 +113,7 @@
       if (token) {
         if (!jwtHelper.isTokenExpired(token)) {
           if (!auth.isAuthenticated) {
+            document.body.classList.add('logged-in')
             auth.authenticate(store.get('profile'), token)
           }
         }

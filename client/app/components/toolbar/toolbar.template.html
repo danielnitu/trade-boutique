@@ -1,0 +1,24 @@
+<md-toolbar class="md-primary md-hue-2" layout="row">
+  <div class="md-toolbar-tools">
+    <a id="toolbar-menu"
+      ng-click="toolbar.toggleSidenav('left')"
+      ng-show="toolbar.userLogged"
+      hide-gt-sm>
+      <i class="material-icons">menu</i>
+    </a>
+
+    <span flex ng-show="!toolbar.userLogged"></span>
+
+    <div flex ng-show="toolbar.userLogged">
+      <search layout="row" layout-align="center center"></search>
+    </div>
+
+    <md-button
+      aria-label="Login"
+      ng-if="!toolbar.auth.isAuthenticated"
+      ng-click="toolbar.login()">
+      Login
+    </md-button>
+
+  </div>
+</md-toolbar>

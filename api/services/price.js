@@ -1,8 +1,10 @@
-var moment = require('moment')
+var bunyan = require('bunyan')
+var log = bunyan.createLogger({name: 'priceService'})
 var Client = require('node-rest-client').Client
 var priceClient = new Client()
 
 var INVESTFLY_API = 'https://api.investfly.com/stockmarket/quotes'
+var INVESTFLY_API_SINGLE = 'https://api.investfly.com/stockmarket/quote?'
 var MARKETS = ['US', 'LSE', 'EURO', 'TMX', 'HKE', 'INDIA']
 
 /*
@@ -16,7 +18,7 @@ var Price = wagner.invoke(function (Price) {
 function updatePrices (Price) {
   MARKETS.forEach(function (market) {
     Price.find({market: market}, function (err, results) {
-      if (err) throw err
+      if (err) log.error(err)
 
       if (results.length > 0) {
         console.log('Found symbols for ' + market)
@@ -26,10 +28,7 @@ function updatePrices (Price) {
           symbols.push(results[j].symbol)
         }
 
-        // DELAY SENDING MULTIPLE API CALLS
-        setTimeout(function () {
-          getPrices(Price, market, symbols)
-        }, 500)
+        getPrices(Price, market, symbols)
       }
     })
   })
@@ -50,7 +49,7 @@ function getPrices (Price, market, symbols) {
   }
 
   priceClient.post(INVESTFLY_API, args, function (data, res) {
-    console.log(moment().format() + ' - Connecting to Investfly Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
+    log.info('Connecting to Investfly Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
 
     if (res.statusCode === 200) {
       var results = data.result
@@ -66,7 +65,7 @@ function getPrices (Price, market, symbols) {
         var ROBINHOOD_API = 'https://api.robinhood.com/quotes/?symbols='
 
         priceClient.get(ROBINHOOD_API + symbols.toString(), function (data, res) {
-          console.log(moment().format() + ' - Connecting to Robinhood Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
+          log.info('Connecting to Robinhood Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
 
           if (res.statusCode === 200) {
             var results = data.results
@@ -83,15 +82,47 @@ function getPrices (Price, market, symbols) {
   })
 }
 
-function savePrice (Price, symbol, price) {
+function getPrice (Price, market, symbol, cb) {
+  var args = {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+  priceClient.get(INVESTFLY_API_SINGLE + 'symbol=' + symbol + '&market=' + market + '&realtime=true',
+    args, function (data, res) {
+      log.info('Connecting to Investfly Stock API Single Quote (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
+
+      if (res.statusCode === 200) {
+        savePrice(Price, data.symbol, data.lastPrice, data.market, function (result) {
+          cb(null, result)
+        })
+      }
+
+      if (res.statusCode === 400) {
+        cb('Cannot get price for ' + symbol + ' or symbol doesn\'t exist', null)
+      }
+    })
+}
+
+function savePrice (Price, symbol, price, market, cb) {
   Price.findOneAndUpdate({symbol: symbol}, {
     $set: {
-      price: price
+      price: price,
+      market: market
     }
-  }, {upsert: true}, function (err, result) {
-    if (err) throw err
-    console.log('Saved ' + price + ' price for ' + symbol)
+  }, {upsert: true, new: true}, function (err, result) {
+    if (err) {
+      log.info('Error on savePrice function (priceService)' + err)
+    }
+
+    if (cb) {
+      cb(result)
+    }
   })
 }
 
-module.exports = updatePrices
+module.exports = {
+  updatePrices: updatePrices,
+  getPrice: getPrice
+}

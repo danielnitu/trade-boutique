@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
+    "bunyan": "^1.8.10",
     "cors": "^2.8.3",
     "currency-formatter": "^1.2.0",
     "express": "^4.15.2",
@@ -31,7 +32,10 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^2.1.2",
     "standard": "^9.0.2"
   },
   "standard": {

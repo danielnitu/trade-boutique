@@ -1,0 +1,103 @@
+<md-content
+  ng-if="home.error"
+  class="no-stocks"
+  layout-padding
+  layout="column"
+  flex
+  layout-align="center center">
+  <div>
+    <h1 flex>{{ home.error }}</h1>
+    <md-button ng-hide="true" class="no-stocks-button md-raised md-primary" ui-sref="stocks">BUY</md-button>
+  </div>
+</md-content>
+
+<div layout="row" flex layout-padding>
+  <md-input-container flex="20">
+    <label>Stock market</label>
+    <md-select ng-model="market" placeholder="Select a market" required>
+      <md-option
+        ng-click="home.getRisersFallers(market)"
+        ng-repeat="market in home.markets"
+        value="{{market}}">
+        {{market}}
+      </md-option>
+    </md-select>
+  </md-input-container>
+  <md-progress-circular
+    class="home-loading"
+    ng-show="home.loading"
+    md-diameter="30px">
+  </md-progress-circular>
+</div>
+
+<md-list>
+  <md-list-item ng-repeat="stock in home.stocks">
+
+    <div layout-align="center center" layout="row" layout-padding>
+      <a ui-sref="stock({symbol: stock.symbol, market: stock.market})" style="z-index: 1">
+        <md-tooltip>See details for {{stock.company}}</md-tooltip>
+        <input type="text" ng-model="stock.avatar" ng-hide="true">
+        <ng-letter-avatar dynamic="true" data="{{stock.avatar}}" charCount="2" height="50" width="50" fontsize="30">
+        </ng-letter-avatar>
+      </a>
+      <div layout="column" layout-align="center center">
+        <span class="portfolio-sm-header">{{stock.company | limitTo: 12}}</span>
+        <span class="portfolio-symbol">{{stock.symbol}}</span>
+      </div>
+    </div>
+
+    <div layout="column" layout-align="center center" flex>
+      <span class="portfolio-sm-header">Last Price:</span>
+        {{stock.lastPrice | currency}}
+    </div>
+
+    <div layout="column" layout-align="center center" flex>
+      <span class="portfolio-sm-header">Change:</span>
+      {{stock.percentChange}}%
+    </div>
+
+    <div layout="column" layout-align="center center" flex hide-xs>
+      <span class="portfolio-sm-header">Market:</span>
+      {{stock.market}}
+    </div>
+
+    <div layout="column" layout-align="center center" flex hide-xs>
+      <span class="portfolio-sm-header">Market Cap:</span>
+      {{stock.marketCap | currency}}
+    </div>
+
+    <div flex hide-sm hide-xs></div>
+
+    <div layout="row" hide-sm hide-xs>
+      <md-button
+        ng-click="portfolio.showSell($event, stock.symbol, stock.company)"
+        class="md-warn md-raised portfolio-button"
+        ng-disabled="stock.error">
+        SELL
+      </md-button>
+      <md-button
+        ng-click="portfolio.showBuy($event, stock.symbol, stock.company)"
+        class="md-primary md-raised portfolio-button"
+        ng-disabled="stock.error">
+        BUY
+      </md-button>
+    </div>
+
+    <div layout="row" hide-gt-sm hide-xs>
+      <md-button
+        ng-click="portfolio.showSell($event, stock.symbol)"
+        class="md-warn md-raised portfolio-sm-button"
+        ng-disabled="stock.error">
+        S
+      </md-button>
+      <md-button
+        ng-click="portfolio.showBuy($event, stock.symbol)"
+        class="md-primary md-raised portfolio-sm-button"
+        ng-disabled="stock.error">
+        B
+      </md-button>
+    </div>
+
+  <md-divider></md-divider>
+  </md-list-item>
+</md-list>

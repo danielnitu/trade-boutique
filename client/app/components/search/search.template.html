@@ -1,0 +1,28 @@
+<form ng-submit="search.getData(search.selectedItem)">
+  <md-autocomplete
+    class="search-form"
+    md-search-text="search.searchText"
+    md-selected-item="search.selectedItem"
+    md-selected-item-change="search.getData(search.selectedItem)"
+    md-items="item in search.queryStock(search.searchText)"
+    md-item-text="item.display"
+    md-no-cache="true"
+    md-min-length="1"
+    md-clear-button="true"
+    md-select-on-match="true"
+    md-match-case-insensitive="true"
+    placeholder="Search for a stock">
+
+    <md-item-template>
+      <a class="search-link" ui-sref="stock({symbol: item})">
+        <span md-highlight-text="search.searchText" md-highlight-flags="^i">
+          {{item}}
+        </span>
+      </a>
+    </md-item-template>
+    <md-not-found>
+      No stocks matching "{{search.searchText}}" were found.
+    </md-not-found>
+
+  </md-autocomplete>
+</form>

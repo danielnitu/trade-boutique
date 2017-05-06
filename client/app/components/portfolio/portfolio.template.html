@@ -1,0 +1,87 @@
+<md-content
+  ng-if="portfolio.noPortfolio"
+  class="no-stocks"
+  layout-padding
+  layout="column"
+  flex
+  layout-align="center center">
+  <div>
+    <h1 flex>{{ portfolio.noPortfolio }}</h1>
+    <md-button ng-hide="true" class="no-stocks-button md-raised md-primary" ui-sref="stocks">BUY</md-button>
+  </div>
+</md-content>
+
+<md-list>
+  <md-list-item ng-repeat="stock in portfolio.portfolio">
+
+    <div layout-align="center center" layout="row" layout-padding>
+      <a ui-sref="stock({symbol: stock.symbol})" style="z-index: 1">
+        <md-tooltip>See details for {{stock.company}}</md-tooltip>
+        <input type="text" ng-model="stock.avatar" ng-hide="true">
+        <ng-letter-avatar dynamic="true" data="{{stock.avatar}}" charCount="2" height="50" width="50" fontsize="30">
+        </ng-letter-avatar>
+      </a>
+      <div layout="column" layout-align="center center">
+        <span class="portfolio-sm-header">{{stock.company | limitTo: 15}}</span>
+        <span class="portfolio-symbol">{{stock.symbol}}</span>
+      </div>
+    </div>
+
+    <div layout="column" layout-align="center center" flex>
+        {{stock.currPrice | currency}}
+        <span class="dialog-profit portfolio-sm-pl" ng-if="(stock.currPrice - stock.price) > 0">
+          +{{((stock.currPrice - stock.price) / stock.price) * 100 | number:2}}%
+        </span>
+        <span class="dialog-loss portfolio-sm-pl" ng-if="(stock.currPrice - stock.price) < 0">
+          {{((stock.currPrice - stock.price) / stock.price) * 100 | number:2}}%
+        </span>
+    </div>
+
+    <div layout="column" layout-align="center center" flex>
+      <span class="portfolio-sm-header">Shares:</span>
+      {{stock.quantity}}
+    </div>
+    <div layout="column" layout-align="center center" flex hide-xs>
+      <span class="portfolio-sm-header">Market:</span>
+      {{stock.market}}
+    </div>
+    <div layout="column" layout-align="center center" flex hide-xs>
+      <span class="portfolio-sm-header">Value:</span>
+      {{(stock.currPrice * stock.quantity) | currency}}
+    </div>
+
+    <div flex hide-sm hide-xs></div>
+
+    <div layout="row" hide-sm hide-xs>
+      <md-button
+        ng-click="portfolio.showSell($event, stock.symbol, stock.company)"
+        class="md-warn md-raised portfolio-button"
+        ng-disabled="stock.error">
+        SELL
+      </md-button>
+      <md-button
+        ng-click="portfolio.showBuy($event, stock.symbol, stock.company)"
+        class="md-primary md-raised portfolio-button"
+        ng-disabled="stock.error">
+        BUY
+      </md-button>
+    </div>
+
+    <div layout="row" hide-gt-sm hide-xs>
+      <md-button
+        ng-click="portfolio.showSell($event, stock.symbol)"
+        class="md-warn md-raised portfolio-sm-button"
+        ng-disabled="stock.error">
+        S
+      </md-button>
+      <md-button
+        ng-click="portfolio.showBuy($event, stock.symbol)"
+        class="md-primary md-raised portfolio-sm-button"
+        ng-disabled="stock.error">
+        B
+      </md-button>
+    </div>
+
+  <md-divider></md-divider>
+  </md-list-item>
+</md-list>
