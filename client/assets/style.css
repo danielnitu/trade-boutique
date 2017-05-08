@@ -153,11 +153,13 @@ md-sidemenu-button {
 .portfolio-symbol {
   font-weight: bold;
   padding: 10px;
+  padding-top: 0;
 }
 
 .portfolio-sm-header {
   font-size: 10px;
   color: grey;
+  padding-top: 10px;
 }
 
 .portfolio-sm-pl {

@@ -16,7 +16,16 @@ module.exports = function (wagner) {
             .status(500)
             .json({error: err.toString()})
         }
+
         if (!news) {
+          getNews(req.params.symbol, News, function (err, news) {
+            if (err) {
+              res.json({error: err.toString()})
+            } else {
+              res.json({news: news})
+            }
+          })
+        } else if (news && (!news.updatedAt || (Date.now() - new Date(news.updatedAt) >= 1000 * 60 * 60 * 24))) {
           getNews(req.params.symbol, News, function (err, news) {
             if (err) {
               res.json({error: err.toString()})

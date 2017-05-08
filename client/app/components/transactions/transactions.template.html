@@ -32,7 +32,7 @@
 
     <div flex layout="row" layout-align="center center">
       <div layout="column" layout-align="center center" flex hide-xs>
-        <span class="portfolio-sm-header">Operation:</span>
+        <span class="portfolio-sm-header">{{transaction.createdAt | date : 'dd MMM yyyy - h:mma'}}</span>
         {{transaction.quantity < 0 ? 'SELL' : 'BUY'}}
       </div>
       <div layout="column" layout-align="center center" flex>

@@ -5,7 +5,8 @@ function registerTransaction (Transaction, data) {
     company: data.company,
     price: data.price,
     quantity: data.quantity,
-    profit: data.profit
+    profit: data.profit,
+    createdAt: Date.now()
   }, function (err) {
     if (err) {
       console.log(Date.now() + ' - Error storing transaction: ' + err)

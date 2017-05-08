@@ -129,6 +129,7 @@ module.exports = function (wagner) {
             $set:
             {
               funds: req.body.funds,
+              'portfolio.$.company': req.body.company,
               'portfolio.$.price': req.body.price,
               'portfolio.$.quantity': req.body.quantity,
               'portfolio.$.modified': Date.now()

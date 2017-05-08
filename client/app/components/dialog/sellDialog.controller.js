@@ -36,6 +36,7 @@
 
     function sellStock (price, quantity) {
       dialog.loading(vm.loading, true)
+
       var sellAll = vm.user.stock.quantity - quantity
       var profit = (vm.stockPrice - vm.userStockPrice) * quantity
       profile.sellStock(vm.symbol, passCompany, price, quantity, profit, sellAll, function (err, res) {

@@ -9,7 +9,7 @@ module.exports = function (wagner) {
   // GET ENTIRE TRANSACTION HISTORY
   api.get('/all', wagner.invoke(function (Transaction) {
     return function (req, res) {
-      Transaction.find({email: req.user.email}, function (err, transactions) {
+      Transaction.find({email: req.user.email}, null, {sort: '-createdAt'}, function (err, transactions) {
         if (err) {
           return res
             .status(500)

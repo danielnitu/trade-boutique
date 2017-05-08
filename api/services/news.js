@@ -12,8 +12,21 @@ function getNews (symbol, News, cb) {
       var news = []
       var items = data.rss.channel
 
+      // If Yahoo can't find any news for a symbol, save an empty
+      // news array for the next 24 hours
+      if (!items.item) {
+        saveNews(News, symbol, [], function (err, result) {
+          if (err) {
+            return cb(err, null)
+          } else {
+            return cb(null, result)
+          }
+        })
+        return
+      }
+
       try {
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < items.item.length; i++) {
           var article = {}
           article.title = xmlSpecialChars(items.item[i].title)
           article.link = xmlSpecialChars(items.item[i].link)
@@ -34,7 +47,6 @@ function getNews (symbol, News, cb) {
       }
     } else {
       // GET NEWS SOMEWHERE ELSE
-
       var RIVER_NEWS = 'https://api.newsriver.io/v2/search?query=text:'
       var RIVER_NEWS_DATE = moment().subtract(3, 'months').format('YYYY-MM-DD')
       var RIVER_NEWS_PARAMS = ' AND language:en AND discoverDate:[' + RIVER_NEWS_DATE + ' TO *]&sortBy=discoverDate&sortOrder=DESC&limit=10'

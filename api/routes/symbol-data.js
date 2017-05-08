@@ -1,6 +1,7 @@
 var express = require('express')
 var bodyparser = require('body-parser')
 var getDataForSymbol = require('../services/symbol-data').getDataForSymbol
+var updateDataForSymbol = require('../services/symbol-data').updateDataForSymbol
 
 module.exports = function (wagner) {
   var api = express.Router()
@@ -18,6 +19,13 @@ module.exports = function (wagner) {
         }
         if (!data) {
           getDataForSymbol(SymbolData, req.params.symbol, req.params.market, function (err, symbolData) {
+            if (err) {
+              return res.json({error: err})
+            }
+            return res.json({data: symbolData})
+          })
+        } else if (data && (!data.updatedAt || (Date.now() - new Date(data.updatedAt) >= 1000 * 60 * 60 * 24))) {
+          updateDataForSymbol(SymbolData, req.params.symbol, data.market, function (err, symbolData) {
             if (err) {
               return res.json({error: err})
             }

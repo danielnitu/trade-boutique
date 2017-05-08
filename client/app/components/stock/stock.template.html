@@ -23,7 +23,7 @@
               BUY
             </md-button>
             <md-button
-              ng-click="stock.showSell($event, stock.company.symbol)"
+              ng-click="stock.showSell($event, stock.company.symbol, stock.company.company)"
               class="md-warn md-raised stock-card-btn"
               ng-disabled="stock.error || stock.noCompany">
               SELL
@@ -54,16 +54,23 @@
         flex-xs="100" flex-sm="33" flex="33"
         layout-xs="row">
         <div class="stock-card-info" flex>
+        <p>Year High: {{stock.company.high52Week | currency}}</p>
+        <p>Year Low: {{stock.company.low52Week | currency}}</p>
+        <p ng-if="stock.company.marketCap">Market Cap: {{stock.company.marketCap | currency}}</p>
         <p>Market: {{stock.company.market}}</p>
-        <p>Year High: {{stock.company.yearHigh | currency}}</p>
-        <p>Year Low: {{stock.company.yearLow | currency}}</p>
-        <p>Market Cap: {{stock.company.marketCap}}</p>
+        <p>Exchange: {{stock.company.exchange}}</p>
+        <p ng-if="stock.company.sector">Sector: {{stock.company.sector}}</p>
+        <p ng-if="stock.company.industry">Industry: {{stock.company.industry}}</p>
         </div>
         <div class="stock-card-info" flex>
-        <p>Next Qt EPS Est: {{stock.company.EPSEstNextQt | currency}}</p>
-        <p>EBITDA: {{stock.company.EBITDA}}</p>
-        <p>P/E Ratio: {{stock.company.PERatio}}</p>
-        <p>Dividend Pay Date: {{stock.company.dividendPayDate}}</p>
+        <p ng-if="stock.company.eps">EPS: {{stock.company.eps | currency}}</p>
+        <p ng-if="stock.company.ebitda">EBITDA: {{stock.company.ebitda | currency}}</p>
+        <p ng-if="stock.company.peRatio">P/E Ratio: {{stock.company.peRatio | number : 2}}%</p>
+        <p ng-if="stock.company.returnOnEquity">ROE: {{stock.company.returnOnEquity | number : 2}}%</p>
+        <p ng-if="stock.company.revenue">Revenue: {{stock.company.revenue | currency}}</p>
+        <p ng-if="stock.company.netIncome">Net Income: {{stock.company.netIncome | currency}}</p>
+        <p ng-if="stock.company.grossProfit">Gross Profit: {{stock.company.grossProfit | currency}}</p>
+        <p ng-if="stock.company.dividendYield">Dividend Yield: {{stock.company.dividendYield | number : 2}}%</p>
         </div>
       </md-card-content>
 
@@ -71,7 +78,7 @@
 
       <md-card-content
         class="stock-card-content"
-        ng-if="!stock.newsError"
+        ng-if="!stock.newsError && stock.news.length > 1"
         flex-xs="100" flex-sm="33" flex-md="40" flex="50">
         <md-list class="md-dense stock-news-list">
           <span class="md-subhead" ng-show="stock.news">News</span>

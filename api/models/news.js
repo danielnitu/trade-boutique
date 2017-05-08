@@ -11,7 +11,7 @@ var NewsSchema = new mongoose.Schema({
     date: {type: Date},
     description: {type: String}
   }]
-})
+}, {timestamps: true})
 
 NewsSchema.index({symbol: 'text'})
 

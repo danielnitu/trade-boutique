@@ -8,7 +8,8 @@
   function homeController ($http, avatar) {
     var vm = this
 
-    vm.markets = ['US', 'LSE', 'EURO', 'TMX', 'HKE', 'INDIA']
+    // market INDIA also available but API can't find any data
+    vm.markets = ['US', 'LSE', 'EURO', 'TMX', 'HKE']
     vm.loading = false
 
     vm.getRisersFallers = getRisersFallers

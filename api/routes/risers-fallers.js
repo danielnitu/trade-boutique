@@ -19,8 +19,9 @@ module.exports = function (wagner) {
             .json({error: err.toString()})
         }
 
-        // If market isn't found in database, connect to the API and retrieve data
-        if (data.length < 1) {
+        // If market isn't found in database, or records are older than 24 hours,
+        // connect to the API and retrieve data
+        if ((Date.now() - new Date(data.createdAt)) >= 1000 * 60 * 60 * 24) {
           getRisersFallers(RisersFallers, market, function (err, stocks) {
             if (err) {
               return res.json({error: 'Could not get market risers/fallers'})
