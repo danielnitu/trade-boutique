@@ -22,7 +22,7 @@
         </ng-letter-avatar>
       </a>
       <div layout="column" layout-align="center center">
-        <span class="portfolio-sm-header">{{stock.company | limitTo: 15}}</span>
+        <span class="portfolio-sm-header">{{stock.company | limitTo : 15}}</span>
         <span class="portfolio-symbol">{{stock.symbol}}</span>
       </div>
     </div>
@@ -30,10 +30,10 @@
     <div layout="column" layout-align="center center" flex>
         {{stock.currPrice | currency}}
         <span class="dialog-profit portfolio-sm-pl" ng-if="(stock.currPrice - stock.price) > 0">
-          +{{((stock.currPrice - stock.price) / stock.price) * 100 | number:2}}%
+          +{{((stock.currPrice - stock.price) / stock.price) * 100 | number : 2}}%
         </span>
         <span class="dialog-loss portfolio-sm-pl" ng-if="(stock.currPrice - stock.price) < 0">
-          {{((stock.currPrice - stock.price) / stock.price) * 100 | number:2}}%
+          {{((stock.currPrice - stock.price) / stock.price) * 100 | number : 2}}%
         </span>
     </div>
 
@@ -69,13 +69,13 @@
 
     <div layout="row" hide-gt-sm hide-xs>
       <md-button
-        ng-click="portfolio.showSell($event, stock.symbol)"
+        ng-click="portfolio.showSell($event, stock.symbol, stock.company)"
         class="md-warn md-raised portfolio-sm-button"
         ng-disabled="stock.error">
         S
       </md-button>
       <md-button
-        ng-click="portfolio.showBuy($event, stock.symbol)"
+        ng-click="portfolio.showBuy($event, stock.symbol, stock.company)"
         class="md-primary md-raised portfolio-sm-button"
         ng-disabled="stock.error">
         B

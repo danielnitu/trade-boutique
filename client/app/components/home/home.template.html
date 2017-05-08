@@ -11,8 +11,9 @@
   </div>
 </md-content>
 
-<div layout="row" flex layout-padding>
-  <md-input-container flex="20">
+<div layout="row" layout-xs="column" flex layout-padding>
+  <h3 class="home-rise-fall">Top Risers and Fallers</h3>
+  <md-input-container flex="25" flex-sm="40" flex-xs="100">
     <label>Stock market</label>
     <md-select ng-model="market" placeholder="Select a market" required>
       <md-option
@@ -34,7 +35,7 @@
   <md-list-item ng-repeat="stock in home.stocks">
 
     <div layout-align="center center" layout="row" layout-padding>
-      <a ui-sref="stock({symbol: stock.symbol, market: stock.market})" style="z-index: 1">
+      <a ui-sref="stock({symbol: stock.symbol, market: market || 'US'})" style="z-index: 1">
         <md-tooltip>See details for {{stock.company}}</md-tooltip>
         <input type="text" ng-model="stock.avatar" ng-hide="true">
         <ng-letter-avatar dynamic="true" data="{{stock.avatar}}" charCount="2" height="50" width="50" fontsize="30">
@@ -53,12 +54,12 @@
 
     <div layout="column" layout-align="center center" flex>
       <span class="portfolio-sm-header">Change:</span>
-      {{stock.percentChange}}%
-    </div>
-
-    <div layout="column" layout-align="center center" flex hide-xs>
-      <span class="portfolio-sm-header">Market:</span>
-      {{stock.market}}
+      <span class="dialog-profit" ng-if="stock.percentChange > 0">
+        {{stock.percentChange}}%
+      </span>
+      <span class="dialog-loss" ng-if="stock.percentChange < 0">
+        {{stock.percentChange}}%
+      </span>
     </div>
 
     <div layout="column" layout-align="center center" flex hide-xs>
@@ -70,13 +71,13 @@
 
     <div layout="row" hide-sm hide-xs>
       <md-button
-        ng-click="portfolio.showSell($event, stock.symbol, stock.company)"
+        ng-click="home.showSell($event, stock.symbol, stock.company)"
         class="md-warn md-raised portfolio-button"
         ng-disabled="stock.error">
         SELL
       </md-button>
       <md-button
-        ng-click="portfolio.showBuy($event, stock.symbol, stock.company)"
+        ng-click="home.showBuy($event, stock.symbol, stock.company)"
         class="md-primary md-raised portfolio-button"
         ng-disabled="stock.error">
         BUY
@@ -85,13 +86,13 @@
 
     <div layout="row" hide-gt-sm hide-xs>
       <md-button
-        ng-click="portfolio.showSell($event, stock.symbol)"
+        ng-click="home.showSell($event, stock.symbol, stock.company)"
         class="md-warn md-raised portfolio-sm-button"
         ng-disabled="stock.error">
         S
       </md-button>
       <md-button
-        ng-click="portfolio.showBuy($event, stock.symbol)"
+        ng-click="home.showBuy($event, stock.symbol, stock.company)"
         class="md-primary md-raised portfolio-sm-button"
         ng-disabled="stock.error">
         B

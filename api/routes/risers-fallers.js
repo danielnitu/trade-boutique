@@ -12,7 +12,7 @@ module.exports = function (wagner) {
     return function (req, res) {
       var market = req.params.market || 'US'
 
-      RisersFallers.find({market: market}, function (err, data) {
+      RisersFallers.findOne({market: market}, function (err, data) {
         if (err) {
           return res
             .status(500)
@@ -21,10 +21,10 @@ module.exports = function (wagner) {
 
         // If market isn't found in database, or records are older than 24 hours,
         // connect to the API and retrieve data
-        if ((Date.now() - new Date(data.createdAt)) >= 1000 * 60 * 60 * 24) {
+        if (!data || ((Date.now() - new Date(data.createdAt)) >= 1000 * 60 * 60 * 24)) {
           getRisersFallers(RisersFallers, market, function (err, stocks) {
             if (err) {
-              return res.json({error: 'Could not get market risers/fallers'})
+              return res.json({error: 'Could not get market risers/fallers' + err})
             } else {
               res.json({stocks: stocks})
             }

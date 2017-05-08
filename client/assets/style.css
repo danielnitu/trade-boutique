@@ -148,6 +148,11 @@ md-sidemenu-button {
   margin-top: 25px;
 }
 
+.home-rise-fall {
+  font-weight: 400;
+  padding-top: 10px;
+}
+
 /* PORTFOLIO */
 
 .portfolio-symbol {
@@ -293,6 +298,15 @@ md-sidemenu-button {
 
   .search-form {
     width: 150px;
+  }
+
+  .home-rise-fall {
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .home-loading svg {
+    margin: 10px;
   }
 }
 
