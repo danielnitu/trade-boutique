@@ -12,7 +12,7 @@
 </md-content>
 
 <md-list>
-  <md-list-item ng-repeat="stock in portfolio.portfolio">
+  <md-list-item ng-repeat="stock in portfolio.portfolio" ng-if="!portfolio.noPortfolio">
 
     <div layout-align="center center" layout="row" layout-padding>
       <a ui-sref="stock({symbol: stock.symbol})" style="z-index: 1">

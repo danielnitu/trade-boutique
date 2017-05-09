@@ -5,7 +5,7 @@
   angular
     .module('app', [
       'auth0', 'angular-storage', 'angular-jwt', 'ngMaterial', 'ui.router', 'ngLetterAvatar',
-      'user', 'sidenav', 'profile', 'price', 'news', 'avatar'])
+      'sidenav', 'profile', 'price', 'news', 'avatar'])
     .config(config)
     .run(run)
 

@@ -19,21 +19,25 @@ module.exports = function (wagner) {
             .json({error: err.toString()})
         }
 
+        var newMessage = 'Welcome to Trade Boutique! \n Your account has been created.'
+        var existingMessage = 'Welcome back!'
+        var errorMessage = 'There was an error creating your account! \n Please try again. \n'
+
         if (!user) {
           var newUser = new User({
             email: req.user.email,
             funds: 100000
           })
-          var message = 'Welcome to Trade Boutique! \n Your account has been created.'
+
           newUser.save(function (err, user) {
             if (err) {
-              return res.json({message: 'There was an error creating your account! \n Please try again.'})
+              return res.json({message: errorMessage + err})
             }
             console.log(moment().format() + ' - New user created: ' + user.email)
-            return res.json({user: user, message: message})
+            return res.json({user: user, message: newMessage})
           })
         } else {
-          res.json({user: user})
+          res.json({user: user, message: existingMessage})
         }
       })
     }

@@ -5,9 +5,11 @@
     .module('app')
     .controller('toolbarController', toolbarController)
 
-  function toolbarController (auth, store, $location, $scope, $rootScope, sidenav) {
+  function toolbarController (auth, store, $location, $scope, $rootScope, $http, sidenav) {
     var vm = this
+
     vm.login = login
+
     vm.auth = auth
     vm.toggleSidenav = sidenav.toggleSidenav
     vm.userLogged = false
@@ -36,13 +38,25 @@
       }, function (profile, token) {
         store.set('profile', profile)
         store.set('token', token)
-        $location.path('/home')
+        $location.path('/welcome')
         document.body.classList.add('logged-in')
-        $rootScope.$broadcast('userLogIn')
         vm.userLogged = true
+        userAccount(function (res) {
+          vm.message = res.data.message
+          vm.funds = res.data.user.funds
+          $rootScope.$broadcast('userLogIn')
+        })
       }, function (error) {
         console.log(error)
       })
+    }
+
+    function userAccount (cb) {
+      $http
+        .get('api/user/')
+        .then(function (res) {
+          cb(res)
+        })
     }
   }
 })()

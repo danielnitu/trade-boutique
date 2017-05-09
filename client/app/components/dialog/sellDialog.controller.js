@@ -35,20 +35,17 @@
     })
 
     function sellStock (price, quantity) {
-      dialog.loading(vm.loading, true)
-
       var sellAll = vm.user.stock.quantity - quantity
       var profit = (vm.stockPrice - vm.userStockPrice) * quantity
-      profile.sellStock(vm.symbol, passCompany, price, quantity, profit, sellAll, function (err, res) {
-        dialog.loading(vm.loading, false)
-        $rootScope.$broadcast('transaction')
 
+      profile.sellStock(vm.symbol, passCompany, price, quantity, profit, sellAll, function (err, res) {
         if (err) {
           vm.loading = false
           vm.error = err
         } else {
           vm.closeDialog()
           vm.showToast('sold', quantity, vm.symbol, ((price * quantity).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')))
+          $rootScope.$broadcast('transaction')
         }
       })
     }

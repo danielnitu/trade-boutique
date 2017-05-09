@@ -8,8 +8,7 @@
   function homeController ($http, avatar, dialog) {
     var vm = this
 
-    // market INDIA also available but API can't find any data
-    vm.markets = ['US', 'LSE', 'EURO', 'TMX', 'HKE']
+    vm.markets = ['US', 'LSE', 'EURO', 'TMX', 'HKE', 'INDIA']
     vm.loading = false
 
     vm.showSell = dialog.showSell

@@ -7,13 +7,13 @@ var INVESTFLY_API = 'https://api.investfly.com/stockmarket/quotes'
 var INVESTFLY_API_SINGLE = 'https://api.investfly.com/stockmarket/quote?'
 var MARKETS = ['US', 'LSE', 'EURO', 'TMX', 'HKE', 'INDIA']
 
-/*
-var wagner = require('wagner-core')
-require('../models/index')(wagner)
-var Price = wagner.invoke(function (Price) {
-  return Price
-})
-*/
+// var wagner = require('wagner-core')
+// require('../models/index')(wagner)
+// var Price = wagner.invoke(function (Price) {
+//   return Price
+// })
+
+// updatePrices(Price)
 
 function updatePrices (Price) {
   MARKETS.forEach(function (market) {
@@ -21,14 +21,14 @@ function updatePrices (Price) {
       if (err) log.error(err)
 
       if (results.length > 0) {
-        console.log('Found symbols for ' + market)
+        console.log(Date.now() + ' - Found symbols for ' + market)
         var symbols = []
 
         for (var j = 0; j < results.length; j++) {
           symbols.push(results[j].symbol)
         }
-
         getPrices(Price, market, symbols)
+        console.log(Date.now() + ' - Price update for ' + market)
       }
     })
   })
