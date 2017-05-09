@@ -2,27 +2,13 @@
   'use strict'
 
   angular
-    .module('app')
-    .controller('toolbarController', toolbarController)
+    .module('user', [])
+    .factory('user', user)
 
-  function toolbarController (auth, store, $location, $scope, $rootScope, sidenav) {
-    var vm = this
-    vm.login = login
-    vm.auth = auth
-    vm.toggleSidenav = sidenav.toggleSidenav
-    vm.userLogged = false
-
-    if (auth.isAuthenticated) {
-      vm.userLogged = true
+  function user (auth, store, $location, $scope, $rootScope, sidenav) {
+    return {
+      login: login
     }
-
-    $scope.$on('userLogOut', function () {
-      vm.userLogged = false
-    })
-
-    $scope.$on('userLogIn', function () {
-      vm.userLogged = true
-    })
 
     function login () {
       // The auth service has a signin method that
@@ -39,7 +25,6 @@
         $location.path('/home')
         document.body.classList.add('logged-in')
         $rootScope.$broadcast('userLogIn')
-        vm.userLogged = true
       }, function (error) {
         console.log(error)
       })

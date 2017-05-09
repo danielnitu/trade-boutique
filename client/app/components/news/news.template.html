@@ -1,6 +1,10 @@
 <md-content>
   <md-list flex>
-    <md-list-item class="md-3-line" ng-repeat="article in news.news" ng-href="{{article.link}}" target="_blank">
+    <md-list-item
+      class="md-3-line"
+      ng-repeat="article in news.news track by $index"
+      ng-href="{{article.link}}"
+      target="_blank">
       <img ng-if="article.picture" ng-src="{{article.picture}}" class="md-avatar" id="news-avatar"/>
       <img ng-if="!article.picture" ng-src="assets/news-icon.png" class="md-avatar" id="news-avatar"/>
       <div class="md-list-item-text" layout="column">

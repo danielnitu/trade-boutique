@@ -1,5 +1,12 @@
-<md-content layout-padding>
-  <h1>Welcome to the Angular Auth app!</h1>
-  <h3>Login from the toolbar above to access your profile.</h3>
-  <ng-avatar initials="T"></ng-avatar>
-</md-content>
+<div class="welcome-bg" layout="column" layout-align="center center">
+  <div layout="column" layout-align="center center">
+    <img src="assets/logo.png" class="welcome-logo">
+    <md-button
+      class="md-primary md-raised welcome-button"
+      aria-label="Sign Up"
+      ng-if="!toolbar.auth.isAuthenticated"
+      ng-click="toolbar.login()">
+      SIGN UP
+    </md-button>
+  </div>
+</div>

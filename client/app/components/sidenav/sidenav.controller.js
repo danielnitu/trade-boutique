@@ -65,7 +65,7 @@
       document.body.classList.remove('logged-in')
       $rootScope.$broadcast('userLogOut')
       vm.userLogged = false
-      $location.path('/home')
+      $location.path('/welcome')
     }
   }
 })()

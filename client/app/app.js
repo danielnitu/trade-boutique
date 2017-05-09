@@ -5,7 +5,7 @@
   angular
     .module('app', [
       'auth0', 'angular-storage', 'angular-jwt', 'ngMaterial', 'ui.router', 'ngLetterAvatar',
-      'sidenav', 'profile', 'price', 'news', 'avatar'])
+      'user', 'sidenav', 'profile', 'price', 'news', 'avatar'])
     .config(config)
     .run(run)
 
@@ -28,7 +28,8 @@
     $stateProvider
       .state('welcome', {
         url: '/welcome',
-        templateUrl: 'app/components/welcome/welcome.template.html'
+        templateUrl: 'app/components/welcome/welcome.template.html',
+        controller: 'toolbarController as toolbar'
       })
       .state('home', {
         url: '/home',
@@ -93,7 +94,7 @@
             auth.signout()
             store.remove('profile')
             store.remove('token')
-            $location.path('/home')
+            $location.path('/welcome')
           }
           return $q.reject(rejection)
         }
@@ -120,7 +121,7 @@
       }
 
       if (!auth.isAuthenticated) {
-        $location.path('/home')
+        $location.path('/welcome')
       }
     })
   }

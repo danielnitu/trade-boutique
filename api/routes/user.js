@@ -24,14 +24,17 @@ module.exports = function (wagner) {
             email: req.user.email,
             funds: 100000
           })
-          newUser.save()
-          console.log(moment().format() + ' - New user created: ' + newUser.email)
-          return res
-            .status(201)
-            .json({message: 'Your account has been created!'})
+          var message = 'Welcome to Trade Boutique! \n Your account has been created.'
+          newUser.save(function (err, user) {
+            if (err) {
+              return res.json({message: 'There was an error creating your account! \n Please try again.'})
+            }
+            console.log(moment().format() + ' - New user created: ' + user.email)
+            return res.json({user: user, message: message})
+          })
+        } else {
+          res.json({user: user})
         }
-
-        res.json({user: user})
       })
     }
   }))

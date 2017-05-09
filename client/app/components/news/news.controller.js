@@ -27,8 +27,10 @@
         } else {
           vm.news = []
           res.data.news.forEach(function (item) {
-            for (var i = 0; i < 10; i++) {
-              vm.news.push(item.news[i])
+            if (item.news.length > 1) {
+              for (var i = 0; i < item.news.length; i++) {
+                vm.news.push(item.news[i])
+              }
             }
           })
           news.shuffleNews(vm.news)
