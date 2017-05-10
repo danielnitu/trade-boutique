@@ -18,7 +18,7 @@
   <md-sidemenu>
 
     <div class="nav-profile" layout-padding layout="row">
-      <img class="nav-profile-pic" ng-src="{{ sidenav.profile.picture }}">
+      <img class="nav-profile-pic" ng-src="{{ sidenav.profile.picture }}" ui-sref="profile">
       <div layout="column">
         <span class="nav-profile-name">{{ sidenav.profile.name }}</span>
         <div layout="column" class="nav-profile-funds">
@@ -36,6 +36,16 @@
           <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
             <i class="material-icons">language</i>
             <span class="ng-scope">Watchlist</span>
+          </div>
+          <div class="md-ripple-container"></div>
+        </a>
+      </md-sidemenu-button>
+
+      <md-sidemenu-button ui-sref="home">
+        <a md-ink-ripple class="md-sidemenu-button md-button layout-column" ng-href="">
+          <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
+            <i class="material-icons">swap_vert</i>
+            <span class="ng-scope">Risers / Fallers</span>
           </div>
           <div class="md-ripple-container"></div>
         </a>
@@ -61,6 +71,13 @@
         </a>
       </md-sidemenu-button>
 
+    </md-sidemenu-group>
+
+    <md-divider></md-divider>
+
+    <md-sidemenu-group>
+      <md-subheader>More</md-subheader>
+
       <md-sidemenu-button>
         <a md-ink-ripple class="md-sidemenu-button md-button layout-column" ui-sref="news">
           <div layout="row" layout-fill="" layout-align="start center" class="layout-fill ng-scope layout-align-start-center layout-row">
@@ -70,13 +87,6 @@
           <div class="md-ripple-container"></div>
         </a>
       </md-sidemenu-button>
-
-    </md-sidemenu-group>
-
-    <md-divider></md-divider>
-
-    <md-sidemenu-group>
-      <md-subheader>Profile</md-subheader>
 
       <md-sidemenu-button ui-sref="profile">
         <a md-ink-ripple class="md-sidemenu-button md-button layout-column">

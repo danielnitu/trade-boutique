@@ -58,5 +58,15 @@
           cb(res)
         })
     }
+
+    vm.features = [
+      '$100,000 starting funds',
+      'Real-time stock prices',
+      'Six international stock markets',
+      'Stock risers and fallers',
+      'Daily news for market companies',
+      'Up-to-date company data',
+      'User-friendly interface'
+    ]
   }
 })()

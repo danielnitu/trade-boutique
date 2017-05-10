@@ -7,6 +7,7 @@ var port = process.env.PORT || 3000
 var ROUTES = './api/routes/'
 
 require('./api/models')(wagner)
+require('./api/services')(wagner)
 
 var app = express()
 

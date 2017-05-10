@@ -36,7 +36,7 @@
 
     <div layout-align="center center" layout="row" layout-padding>
       <a ui-sref="stock({symbol: stock.symbol, market: market || 'US'})" style="z-index: 1">
-        <md-tooltip>See details for {{stock.company}}</md-tooltip>
+        <md-tooltip>See details for {{stock.company}} / {{market || 'US'}}</md-tooltip>
         <input type="text" ng-model="stock.avatar" ng-hide="true">
         <ng-letter-avatar dynamic="true" data="{{stock.avatar}}" charCount="2" height="50" width="50" fontsize="30">
         </ng-letter-avatar>

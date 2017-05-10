@@ -1,24 +1,22 @@
 var bunyan = require('bunyan')
 var log = bunyan.createLogger({name: 'priceService'})
+
 var Client = require('node-rest-client').Client
 var priceClient = new Client()
 
 var INVESTFLY_API = 'https://api.investfly.com/stockmarket/quotes'
 var INVESTFLY_API_SINGLE = 'https://api.investfly.com/stockmarket/quote?'
-var MARKETS = ['US', 'LSE', 'EURO', 'TMX', 'HKE', 'INDIA']
+// var MARKETS = ['US', 'LSE', 'EURO', 'TMX', 'HKE', 'INDIA']
 
-// var wagner = require('wagner-core')
-// require('../models/index')(wagner)
-// var Price = wagner.invoke(function (Price) {
-//   return Price
-// })
+function updatePrices (wagner, market) {
+  if (!market) return
 
-// updatePrices(Price)
-
-function updatePrices (Price) {
-  MARKETS.forEach(function (market) {
+  wagner.invoke(function (Price) {
     Price.find({market: market}, function (err, results) {
-      if (err) log.error(err)
+      if (err) {
+        log.error(err)
+        return
+      }
 
       if (results.length > 0) {
         console.log(Date.now() + ' - Found symbols for ' + market)
@@ -52,14 +50,14 @@ function getPrices (Price, market, symbols) {
     log.info('Connecting to Investfly Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
 
     if (res.statusCode === 200) {
+      log.info('Updating ' + data.count + ' symbols in market ' + market)
       var results = data.result
 
       for (const stock of Object.keys(results)) {
-        savePrice(Price, results[stock].symbol, results[stock].lastPrice)
+        savePrice(Price, results[stock].symbol, results[stock].lastPrice, results[stock].market)
       }
     } else {
       // GET QUOTE SOMEWHERE ELSE
-
       // ONLY US STOCK AVAILABLE FOR BACKUP API
       if (market === 'US') {
         var ROBINHOOD_API = 'https://api.robinhood.com/quotes/?symbols='
@@ -91,7 +89,7 @@ function getPrice (Price, market, symbol, cb) {
   }
   priceClient.get(INVESTFLY_API_SINGLE + 'symbol=' + symbol + '&market=' + market + '&realtime=true',
     args, function (data, res) {
-      log.info('Connecting to Investfly Stock API Single Quote (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
+      log.info('Connecting to Investfly Stock API Single Quote (' + symbol + ' / ' + market + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
 
       if (res.statusCode === 200) {
         savePrice(Price, data.symbol, data.lastPrice, data.market, function (result) {
@@ -113,7 +111,7 @@ function savePrice (Price, symbol, price, market, cb) {
     }
   }, {upsert: true, new: true}, function (err, result) {
     if (err) {
-      log.info('Error on savePrice function (priceService)' + err)
+      log.info('Error on priceService (savePrice) - ' + symbol + ' / ' + market + ' Message: ' + err)
     }
 
     if (cb) {

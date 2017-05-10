@@ -5,7 +5,7 @@
   - Gets data from API and returns it
   if symbol doesn't exist in the database
   - Updates data and returns it if data is
-  older that one day
+  older than 24 hours
   - Requires SymbolData model injection
   when invoked
 
@@ -25,7 +25,7 @@ function getDataForSymbol (SymbolData, symbol, market, cb) {
   }
   dataClient.get('https://api.investfly.com/stockmarket/metric?symbol=' + symbol + '&market=' + market,
     args, function (data, res) {
-      log.info('Connecting to Investfly Data API (new symbol: ' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
+      log.info('Connecting to Investfly Data API (new symbol: ' + symbol + ' / ' + market + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
 
       if (res.statusCode === 200) {
         SymbolData.create({
@@ -67,7 +67,7 @@ function updateDataForSymbol (SymbolData, symbol, market, cb) {
   }
   dataClient.get('https://api.investfly.com/stockmarket/metric?symbol=' + symbol + '&market=' + market,
     args, function (data, res) {
-      log.info('Connecting to Investfly Data API (update symbol: ' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
+      log.info('Connecting to Investfly Data API (update symbol: ' + symbol + ' / ' + market + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
 
       if (res.statusCode === 200) {
         SymbolData.findOneAndUpdate({symbol: symbol}, {

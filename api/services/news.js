@@ -1,4 +1,6 @@
-var moment = require('moment')
+var bunyan = require('bunyan')
+var log = bunyan.createLogger({name: 'newsService'})
+
 var Client = require('node-rest-client').Client
 var newsClient = new Client()
 
@@ -6,7 +8,7 @@ var YAHOO_NEWS = 'http://finance.yahoo.com/rss/headline?s='
 
 function getNews (symbol, News, cb) {
   newsClient.get(YAHOO_NEWS + symbol, function (data, res) {
-    console.log(moment().format() + ' - Connecting to Yahoo News API (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
+    log.info('Connecting to Yahoo News API (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
 
     if (res.statusCode === 200) {
       var news = []
@@ -59,7 +61,8 @@ function getNews (symbol, News, cb) {
       }
 
       newsClient.get(RIVER_NEWS + symbol + RIVER_NEWS_PARAMS, args, function (data, res) {
-        console.log(moment().format() + ' - Connecting to Newsriver API: ' + res.statusCode + ' (' + res.statusMessage + ')')
+        log.info('Connecting to RiverNews API (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
+
         if (res.statusCode === 200) {
           var news = []
           var items = data

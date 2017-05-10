@@ -9,6 +9,16 @@
       SIGN UP
     </md-button>
 
+    <div class="welcome-features" layout="column" layout-align="center start">
+      <p
+        class="welcome-feature"
+        ng-repeat="feature in toolbar.features"
+        ng-if="!toolbar.auth.isAuthenticated">
+        <i class="material-icons">done</i>
+        {{feature}}
+      </p>
+    </div>
+
     <h3 ng-if="toolbar.auth.isAuthenticated" class="welcome-message">{{toolbar.message}}</h3>
     <h3 ng-if="toolbar.auth.isAuthenticated" class="welcome-message">Available funds: {{toolbar.funds | currency}}</h3>
   </div>
