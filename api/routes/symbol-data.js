@@ -8,7 +8,7 @@ module.exports = function (wagner) {
 
   api.use(bodyparser.json())
 
-  // STOCK DATA BY STOCK SYMBOL
+  // STOCK DATA BY STOCK SYMBOL AND MARKET
   api.get('/symbol/:symbol/:market?', wagner.invoke(function (SymbolData) {
     return function (req, res) {
       SymbolData.findOne({symbol: req.params.symbol}, function (err, data) {

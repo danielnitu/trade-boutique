@@ -32,9 +32,10 @@ module.exports = function (wagner) {
           newUser.save(function (err, user) {
             if (err) {
               return res.json({message: errorMessage + err})
+            } else {
+              console.log(moment().format() + ' - New user created: ' + user.email)
+              res.json({user: user, message: newMessage})
             }
-            console.log(moment().format() + ' - New user created: ' + user.email)
-            return res.json({user: user, message: newMessage})
           })
         } else {
           res.json({user: user, message: existingMessage})
@@ -145,7 +146,6 @@ module.exports = function (wagner) {
           {new: true},
           function (err, user) {
             if (err) {
-              console.log(err.toString())
               return res
                 .status(500)
                 .json({error: err.toString()})

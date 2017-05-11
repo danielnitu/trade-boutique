@@ -1,16 +1,23 @@
+/**********************************************
+Trade Boutique  Copyright (C) 2017  Daniel Nitu
+**********************************************/
+
 var express = require('express')
 var cors = require('cors')
 var wagner = require('wagner-core')
+var compression = require('compression')
 var auth = require('./api/middleware/auth')
 
 var port = process.env.PORT || 3000
 var ROUTES = './api/routes/'
 
+require('events').EventEmitter.prototype._maxListeners = process.env.MAX_LISTENERS || 20
 require('./api/models')(wagner)
 require('./api/services')(wagner)
 
 var app = express()
 
+app.use(compression())
 app.use(cors())
 
 app.use(express.static('./client/'))

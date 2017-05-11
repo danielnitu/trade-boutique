@@ -1,3 +1,6 @@
+var moment = require('moment')
+var config = require('../../.config')
+
 var bunyan = require('bunyan')
 var log = bunyan.createLogger({name: 'newsService'})
 
@@ -56,7 +59,7 @@ function getNews (symbol, News, cb) {
       var args = {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'sBBqsGXiYgF0Db5OV5tAwznjvBUFuRuj2WWQu-CUf-tvRxOHy1Gf9cz377XE8Wcr'
+          'Authorization': process.env.RIVER_NEWS_AUTHORIZATION || config.RIVER_NEWS_AUTHORIZATION
         }
       }
 

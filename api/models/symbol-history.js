@@ -15,6 +15,6 @@ var SymbolHistorySchema = new mongoose.Schema({
   }]
 })
 
-SymbolHistorySchema.index({symbol: 'text'})
+SymbolHistorySchema.index({symbol: 1})
 
 module.exports = SymbolHistorySchema

@@ -1,18 +1,6 @@
-/*
-  *** SYMBOL DATA SERVICE ***
-    - EXECUTES WHEN NEEDED -
-
-  - Gets data from API and returns it
-  if symbol doesn't exist in the database
-  - Updates data and returns it if data is
-  older than 24 hours
-  - Requires SymbolData model injection
-  when invoked
-
-*/
-
 var bunyan = require('bunyan')
 var log = bunyan.createLogger({name: 'symbolDataService'})
+
 var Client = require('node-rest-client').Client
 var dataClient = new Client()
 

@@ -21,6 +21,10 @@ var UserSchema = new mongoose.Schema({
 
 }, {timestamps: true})
 
+UserSchema.index({email: 1})
+
+module.exports = UserSchema
+
 /*
 
 THE USER SCHEMA WAS GOING TO BE MUCH MORE ELABORATE,
@@ -84,6 +88,7 @@ UserSchema.pre('save', function (next) {
   }
 })
 
+Trade Boutique  Copyright (C) 2017  Daniel Nitu
 // hash the user password before saving it
 UserSchema.pre('save', function (next) {
   var user = this
@@ -185,5 +190,3 @@ UserSchema.statics.authenticate = function (email, password, cb) {
   })
 }
 */
-
-module.exports = UserSchema

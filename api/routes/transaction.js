@@ -6,7 +6,7 @@ module.exports = function (wagner) {
 
   api.use(bodyparser.json())
 
-  // GET ENTIRE TRANSACTION HISTORY
+  // GET ENTIRE TRANSACTION HISTORY FOR CURRENT USER
   api.get('/all', wagner.invoke(function (Transaction) {
     return function (req, res) {
       Transaction.find({email: req.user.email}, null, {sort: '-createdAt'}, function (err, transactions) {

@@ -13,6 +13,6 @@ var NewsSchema = new mongoose.Schema({
   }]
 }, {timestamps: true})
 
-NewsSchema.index({symbol: 'text'})
+NewsSchema.index({symbol: 1})
 
 module.exports = NewsSchema

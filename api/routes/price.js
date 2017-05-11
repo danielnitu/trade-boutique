@@ -7,7 +7,7 @@ module.exports = function (wagner) {
 
   api.use(bodyparser.json())
 
-  // PRICE BY STOCK SYMBOL
+  // PRICE BY STOCK SYMBOL AND MARKET
   api.get('/:symbol/:market?', wagner.invoke(function (Price) {
     return function (req, res) {
       Price.findOne({symbol: req.params.symbol.toUpperCase()}, function (err, price) {

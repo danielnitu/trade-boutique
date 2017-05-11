@@ -2,7 +2,7 @@
   <h2>{{stock.noCompany}}</h2>
 </div>
 
-<md-content layout="column" ng-if="stock.company">
+<md-content layout="column" ng-hide="stock.noCompany">
   <md-card>
     <md-card-title layout-xs="column">
 
@@ -52,7 +52,8 @@
       <md-card-content
         class="stock-card-content"
         flex-xs="100" flex-sm="33" flex="33"
-        layout-xs="row">
+        layout-xs="row"
+        ng-if="stock.company">
         <div class="stock-card-info" flex>
         <p>Year High: {{stock.company.high52Week | currency}}</p>
         <p>Year Low: {{stock.company.low52Week | currency}}</p>
