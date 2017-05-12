@@ -41,10 +41,10 @@
         store.set('token', token)
         $location.path('/welcome')
         document.body.classList.add('logged-in')
-        vm.userLogged = true
         userAccount(function (res) {
           vm.message = res.data.message
           vm.funds = res.data.user.funds
+          vm.userLogged = true
           $rootScope.$broadcast('userLogIn')
         })
       }, function (error) {

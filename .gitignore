@@ -57,6 +57,8 @@ z.notes/
 db_populate/
 .config
 misc/
+client/app/
+client/gulpfile.js
 
 
 # End of https://www.gitignore.io/api/node

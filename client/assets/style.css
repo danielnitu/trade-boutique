@@ -42,8 +42,14 @@ html, body {
   margin-top: 20px;
 }
 
+.welcome-messages {
+  text-align: center;
+}
+
 .welcome-message {
   color: white;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .welcome-features {

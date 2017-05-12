@@ -24,7 +24,6 @@
   ],
   "dependencies": {
     "angular-jwt": "^0.1.9",
-    "a0-angular-storage": "~0.0.15",
     "auth0-angular": "~4.2.7",
     "ng-letter-avatar": "ngletteravatar#^4.0.4"
   },

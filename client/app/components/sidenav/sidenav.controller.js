@@ -5,7 +5,7 @@
     .module('app')
     .controller('sidenavController', sidenavController)
 
-  function sidenavController ($http, $rootScope, $scope, $location, auth, store,
+  function sidenavController ($http, $rootScope, $scope, $timeout, $location, auth, store,
     sidenav, profile) {
     var vm = this
 

@@ -4,7 +4,8 @@
   "description": "Trade Boutique is an intuitive and easy to use virtual stock trading platform",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "bower install"
   },
   "keywords": [
     "mean",

@@ -27,6 +27,10 @@
         templateUrl: 'app/components/welcome/welcome.template.html',
         controller: 'toolbarController as toolbar'
       })
+      .state('about', {
+        url: '/about',
+        templateUrl: 'app/components/about/about.template.html'
+      })
       .state('home', {
         url: '/home',
         templateUrl: 'app/components/home/home.template.html',

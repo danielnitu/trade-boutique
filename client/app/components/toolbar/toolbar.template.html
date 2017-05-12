@@ -19,9 +19,10 @@
     </p>
 
     <md-button
-      aria-label="Login"
+      ng-if="false"
+      aria-label="About"
       ng-if="!toolbar.auth.isAuthenticated"
-      ng-click="toolbar.login()">
+      ui-sref="toolbar.login()">
       Login
     </md-button>
 
