@@ -33,7 +33,8 @@ function getDataForSymbol (SymbolData, symbol, market, cb) {
           revenue: data.revenue || null,
           netIncome: data.netIncome || null,
           grossProfit: data.grossProfit || null,
-          dividendYield: data.dividendYield || null
+          dividendYield: data.dividendYield || null,
+          newData: true
         }, function (err, data) {
           if (err) {
             return cb('Error: unable to save to database (getDataForSymbol) - ' + err)
@@ -41,7 +42,7 @@ function getDataForSymbol (SymbolData, symbol, market, cb) {
           return cb(null, data)
         })
       } else {
-        cb('Error: ' + data.message, null)
+        cb('Error: ' + res.statusCode + ' - ' + res.statusMessage, null)
       }
     })
 }
@@ -76,16 +77,26 @@ function updateDataForSymbol (SymbolData, symbol, market, cb) {
             revenue: data.revenue || null,
             netIncome: data.netIncome || null,
             grossProfit: data.grossProfit || null,
-            dividendYield: data.dividendYield || null
+            dividendYield: data.dividendYield || null,
+            newData: true
           }
         }, {new: true}, function (err, stock) {
           if (err) {
-            return cb('Error: unable to save to database (updateDataForSymbol) - ' + err)
+            return cb('Error: unable to save to database (updateDataForSymbol) - ' + err, null)
           }
           return cb(null, stock)
         })
       } else {
-        cb('Error: ' + data.message, null)
+        SymbolData.findOneAndUpdate(
+          {symbol: symbol},
+          {newData: false},
+          {new: true},
+          function (err, stock) {
+            if (err) {
+              return cb('Error: unable to save to database (updateDataForSymbol) - ' + err, null)
+            }
+            return cb(null, stock)
+          })
       }
     })
 }

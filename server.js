@@ -13,7 +13,6 @@ var ROUTES = './api/routes/'
 
 require('events').EventEmitter.prototype._maxListeners = process.env.MAX_LISTENERS || 20
 require('./api/models')(wagner)
-require('./api/services')(wagner)
 
 var app = express()
 
@@ -33,4 +32,5 @@ app.use('/api/risefall', require(ROUTES + 'risers-fallers')(wagner))
 
 app.listen(port, function () {
   console.log('Server running on port ' + port)
+  require('./api/services')(wagner)
 })

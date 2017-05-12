@@ -31,6 +31,8 @@
   </md-progress-circular>
 </div>
 
+<p class="api-message" ng-if="home.message">{{home.message}}</p>
+
 <md-list>
   <md-list-item ng-repeat="stock in home.stocks">
 
@@ -63,13 +65,15 @@
     </div>
 
     <div layout="column" layout-align="center center" flex hide-xs>
-      <span class="portfolio-sm-header">Market Cap:</span>
+      <span class="portfolio-sm-header" ng-if="stock.marketCap">Market Cap:</span>
       {{stock.marketCap | currency}}
     </div>
 
     <div flex hide-sm hide-xs></div>
 
-    <div layout="row" hide-sm hide-xs>
+    <!-- Buy/Sell and B/S buttons momentarily disabled -->
+    <!-- Must first implement feature to allow getting price from external API if price is not in DB -->
+    <div layout="row" hide-sm hide-xs ng-if="false">
       <md-button
         ng-click="home.showSell($event, stock.symbol, stock.company)"
         class="md-warn md-raised portfolio-button"
@@ -84,7 +88,7 @@
       </md-button>
     </div>
 
-    <div layout="row" hide-gt-sm hide-xs>
+    <div layout="row" hide-gt-sm hide-xs ng-if="false">
       <md-button
         ng-click="home.showSell($event, stock.symbol, stock.company)"
         class="md-warn md-raised portfolio-sm-button"
@@ -102,3 +106,10 @@
   <md-divider></md-divider>
   </md-list-item>
 </md-list>
+
+<p class="stock-info">
+  * Risers and Fallers update every hour
+</p>
+<p class="stock-info">
+  * Clicking on stock avatar will get real-time price
+</p>

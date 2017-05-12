@@ -20,7 +20,7 @@
       if (err) {
         vm.error = err
       } else {
-        vm.stockPrice = res
+        vm.stockPrice = res.price
       }
     })
 

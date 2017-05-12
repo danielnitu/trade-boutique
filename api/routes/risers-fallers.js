@@ -21,7 +21,7 @@ module.exports = function (wagner) {
 
         // If market isn't found in database, or records are older than one hour,
         // connect to the API and retrieve data
-        if (!data || !data.updatedAt || (Date.now() - new Date(data.updatedAt) >= 1000 * 60 * 60)) {
+        if (!data || (Date.now() - new Date(data.updatedAt) >= 1000 * 60 * 60)) {
           getRisersFallers(RisersFallers, market, function (err, stocks) {
             if (err) {
               return res.json({error: 'Could not get market risers/fallers' + err})

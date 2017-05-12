@@ -20,7 +20,17 @@ function getRisersFallers (RisersFallers, market, cb) {
 
         RisersFallers.findOneAndUpdate(
           {market: market},
-          {stocks: stocks},
+          {stocks: stocks, newData: true},
+          {upsert: true, new: true},
+          function (err, result) {
+            cb(err, result)
+          })
+      // If the API service isn't available, send 'empty' as response,
+      // so the caller can use old data
+      } else {
+        RisersFallers.findOneAndUpdate(
+          {market: market},
+          {newData: false},
           {upsert: true, new: true},
           function (err, result) {
             cb(err, result)

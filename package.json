@@ -13,7 +13,10 @@
     "stock",
     "platform"
   ],
-  "author": "Daniel Nitu",
+  "author": {
+    "name": "Daniel Nitu",
+    "email": "contact@trade.boutique"
+  },
   "license": "GPL-3.0+",
   "dependencies": {
     "body-parser": "^1.17.1",

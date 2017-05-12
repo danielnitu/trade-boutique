@@ -20,7 +20,7 @@ module.exports = function (wagner) {
         } else {
           res.json({transactions: transactions})
         }
-      })
+      }).limit(50)
     }
   }))
 

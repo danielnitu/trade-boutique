@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
 var RisersFallersSchema = new mongoose.Schema({
 
   market: {type: String, required: true},
+  newData: {type: Boolean},
   stocks: [{
     symbol: {type: String, required: true, uppercase: true},
     url: {type: String},

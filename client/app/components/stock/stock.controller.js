@@ -6,7 +6,7 @@
     .controller('stockController', stockController)
 
   /* @ngInject */
-  function stockController ($stateParams, $http, dialog, price, news, avatar) {
+  function stockController ($interval, $scope, $stateParams, $http, dialog, price, news, avatar) {
     var vm = this
 
     vm.loading = false
@@ -26,11 +26,16 @@
           } else {
             vm.company = res.data.data
 
+            if (vm.company.newData === false) {
+              vm.oldData = 'External API not available at this moment. Showing symbol data older than 1 day.'
+            }
+
             price.getPrice($stateParams.symbol, $stateParams.market || vm.company.market, function (err, res) {
               if (err) {
                 vm.error = err
               } else {
-                vm.price = res
+                vm.price = res.price
+                vm.updatedAt = res.updatedAt
               }
             })
 
@@ -52,6 +57,31 @@
         })
     }
 
+    // Sets interval of 5 minutes for auto-updating stock price on UI
+    // Stops interval after 50 minutes
+    var updatePrice
+    function autoupdate () {
+      updatePrice = $interval(function () {
+        price.getPrice($stateParams.symbol, $stateParams.market || vm.company.market, function (err, res) {
+          if (err) {
+            vm.error = err
+          } else {
+            vm.price = res
+            console.log('Price updated for ' + $stateParams.symbol + ' / ' + $stateParams.market || vm.company.market)
+          }
+        })
+      }, 1000 * 60 * 5, 10)
+    }
+
+    $scope.$on('$destroy', function () {
+      $interval.cancel(updatePrice)
+      updatePrice = undefined
+    })
+
+    // Fire to populate DOM with data
     getData()
+
+    // Fire to start auto-update interval
+    autoupdate()
   }
 })()

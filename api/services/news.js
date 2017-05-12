@@ -95,9 +95,18 @@ function getNews (symbol, News, cb) {
             cb('Newsriver API Error: no news available for this symbol!', null)
           }
         } else {
-          // LOG ERROR MESSAGE
-
-          cb('News service not available: ' + res.statusCode + '-' + res.statusMessage, null)
+          // Modify 'newData' parameter and send back old news or none
+          News.findOneAndUpdate(
+            {symbol: symbol},
+            {newData: false},
+            {upsert: true, new: true},
+            function (err, result) {
+              if (err) {
+                cb(err, null)
+              } else {
+                cb(null, result)
+              }
+            })
         }
       })
     }
@@ -114,7 +123,8 @@ function saveNews (News, symbol, newsArray, cb) {
   News.findOneAndUpdate({symbol: symbol}, {
     $set: {
       news: newsArray
-    }
+    },
+    newData: true
   }, {upsert: true, new: true}, function (err, result) {
     if (err) {
       cb(err, null)

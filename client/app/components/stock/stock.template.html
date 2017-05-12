@@ -2,6 +2,8 @@
   <h2>{{stock.noCompany}}</h2>
 </div>
 
+<p class="api-message" ng-if="stock.oldData">{{stock.oldData}}</p>
+
 <md-content layout="column" ng-hide="stock.noCompany">
   <md-card>
     <md-card-title layout-xs="column">
@@ -40,7 +42,12 @@
 
           <span class="md-headline">{{stock.company.company}}</span>
           <span class="md-subhead">{{stock.company.symbol}}</span>
-          <span ng-show="stock.price" class="md-headline">{{stock.price | currency}}</span>
+          <span ng-show="stock.price" class="md-headline">{{stock.price | currency}}
+            <md-tooltip md-delay="400" md-direction="top">
+            * Price updates every 5-10 minutes
+            </md-tooltip>
+            <p class="stock-price-update">Last update: <br> {{stock.updatedAt | date : 'HH:mm - dd MMM yy'}}</p>
+          </span>
           <span ng-show="stock.error" class="md-subhead">{{stock.error}}</span>
           <h3>{{ user.message }}</h3>
 
@@ -49,6 +56,7 @@
 
       <div hide-sm flex></div>
 
+      <!-- Symbol Data -->
       <md-card-content
         class="stock-card-content"
         flex-xs="100" flex-sm="33" flex="33"
@@ -77,6 +85,7 @@
 
       <div hide-sm flex></div>
 
+      <!-- Symbol News -->
       <md-card-content
         class="stock-card-content"
         ng-if="!stock.newsError && stock.news.length > 1"

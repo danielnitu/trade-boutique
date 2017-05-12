@@ -31,6 +31,9 @@
               vm.stocks = res.data.stocks.stocks
               avatar.setAvatar(vm.stocks)
               vm.loading = false
+              if (res.data.stocks.newData === false) {
+                vm.message = 'External API not available at this moment. Showing data older than 1 hour.'
+              }
             }
           })
       } else {

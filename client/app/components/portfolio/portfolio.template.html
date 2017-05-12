@@ -12,6 +12,7 @@
 </md-content>
 
 <md-list>
+  <p class="stock-info" hide-lg hide-md>Tap on a price to see when it was last updated.</p>
   <md-list-item ng-repeat="stock in portfolio.portfolio" ng-if="!portfolio.noPortfolio">
 
     <div layout-align="center center" layout="row" layout-padding>
@@ -28,6 +29,9 @@
     </div>
 
     <div layout="column" layout-align="center center" flex>
+        <md-tooltip md-delay="400" md-direction="top" md-autohide="true">
+          Last update: {{stock.updatedAt | date : 'HH:mm - dd MMM yy'}}
+        </md-tooltip>
         {{stock.currPrice | currency}}
         <span class="dialog-profit portfolio-sm-pl" ng-if="(stock.currPrice - stock.price) > 0">
           +{{((stock.currPrice - stock.price) / stock.price) * 100 | number : 2}}%
@@ -85,3 +89,7 @@
   <md-divider></md-divider>
   </md-list-item>
 </md-list>
+
+<p class="stock-info" ng-if="!portfolio.noPortfolio">
+  * Price auto-updates every 5 minutes for US, LSE, EURO and every 10 minutes for TMX, HKE, INDIA
+</p>

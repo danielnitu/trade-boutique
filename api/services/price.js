@@ -56,26 +56,31 @@ function getPrices (Price, market, symbols) {
       for (const stock of Object.keys(results)) {
         savePrice(Price, results[stock].symbol, results[stock].lastPrice, results[stock].market)
       }
-    } else {
-      // GET QUOTE SOMEWHERE ELSE
-      // ONLY US STOCK AVAILABLE FOR BACKUP API
-      if (market === 'US') {
-        var ROBINHOOD_API = 'https://api.robinhood.com/quotes/?symbols='
+    } else if (market === 'US') {
+      // Get quote somewhere else
+      // Only US stock available for backup API
+      var ROBINHOOD_API = 'https://api.robinhood.com/quotes/?symbols='
 
-        priceClient.get(ROBINHOOD_API + symbols.toString(), function (data, res) {
-          log.info('Connecting to Robinhood Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
-
-          if (res.statusCode === 200) {
-            var results = data.results
-
-            results.forEach(function (stock) {
-              if (stock !== null) {
-                savePrice(Price, stock.symbol, stock.ask_price)
-              }
-            })
-          }
-        })
+      // Maximum symbols allowed is 1630
+      if (symbols.length > 1630) {
+        symbols.length = 1630
       }
+
+      priceClient.get(ROBINHOOD_API + symbols.toString(), function (data, res) {
+        log.info('Connecting to Robinhood Stock API: ' + res.statusCode + ' (' + res.statusMessage + ')')
+
+        if (res.statusCode === 200) {
+          var results = data.results
+
+          results.forEach(function (stock) {
+            if (stock !== null) {
+              savePrice(Price, stock.symbol, stock.ask_price, 'US')
+            }
+          })
+        }
+      })
+    } else {
+      log.info('Could not update prices for ' + market)
     }
   })
 }

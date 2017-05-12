@@ -18,7 +18,8 @@ var SymbolDataSchema = new mongoose.Schema({
   revenue: {type: Number},
   netIncome: {type: Number},
   grossProfit: {type: Number},
-  dividendYield: {type: Number}
+  dividendYield: {type: Number},
+  newData: {type: Boolean, default: true}
 }, {timestamps: true})
 
 SymbolDataSchema.index({symbol: 1})

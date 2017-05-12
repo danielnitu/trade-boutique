@@ -19,7 +19,7 @@ module.exports = function (wagner) {
         if (!price) {
           getPrice(Price, req.params.market, req.params.symbol, function (err, result) {
             if (err) {
-              return res.status(400).json({error: err})
+              return res.json({error: err})
             }
             res.json({price: result})
           })

@@ -16,7 +16,7 @@
         $http
           .get('/api/price/' + symbol + '/' + market)
           .then(function (res) {
-            return cb(null, res.data.price.price)
+            return cb(null, res.data.price)
           }, function (err) {
             return cb('Error: ' + err.data.error, null)
           })
@@ -24,7 +24,7 @@
         $http
           .get('/api/price/' + symbol)
           .then(function (res) {
-            return cb(null, res.data.price.price)
+            return cb(null, res.data.price)
           }, function (err) {
             return cb('Error: status ' + err.status, null)
           })

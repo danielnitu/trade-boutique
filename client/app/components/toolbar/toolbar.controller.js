@@ -31,6 +31,7 @@
       // makes use of Auth0Lock. If authentication
       // is successful, the user's profile and token
       // are saved in local storage with the store service
+
       auth.signin({
         authParams: {
           scope: 'openid email'
