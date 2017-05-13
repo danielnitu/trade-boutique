@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Trade Boutique is an intuitive and easy to use virtual stock trading platform",
   "main": "server.js",
+  "engines": {
+    "node": "6.9.2"
+  },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "bower install"
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "keywords": [
     "mean",
@@ -18,20 +21,21 @@
     "name": "Daniel Nitu",
     "email": "contact@trade.boutique"
   },
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "bunyan": "^1.8.10",
-    "compression": "^1.6.2",
-    "cors": "^2.8.3",
-    "cron": "^1.2.1",
-    "express": "^4.15.2",
-    "express-jwt": "^5.1.0",
-    "moment": "^2.18.1",
-    "mongoose": "^4.9.2",
-    "node-rest-client": "^3.1.0",
-    "underscore": "^1.8.3",
-    "wagner-core": "^0.2.0"
+    "body-parser": "~1.17.1",
+    "bower": "^1.8.0",
+    "bunyan": "~1.8.10",
+    "compression": "~1.6.2",
+    "cors": "~2.8.3",
+    "cron": "~1.2.1",
+    "express": "~4.15.2",
+    "express-jwt": "~5.1.0",
+    "moment": "~2.18.1",
+    "mongoose": "~4.9.2",
+    "node-rest-client": "~3.1.0",
+    "underscore": "~1.8.3",
+    "wagner-core": "~0.2.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
@@ -40,10 +44,5 @@
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^2.1.2",
     "standard": "^9.0.2"
-  },
-  "standard": {
-    "globals": [
-      "angular"
-    ]
   }
 }
