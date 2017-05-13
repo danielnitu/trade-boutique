@@ -1,5 +1,6 @@
 var bunyan = require('bunyan')
 var log = bunyan.createLogger({name: 'risersFallersService'})
+
 var Client = require('node-rest-client').Client
 var risersFallersClient = new Client()
 
