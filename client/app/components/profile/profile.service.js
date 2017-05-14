@@ -23,6 +23,11 @@
         userProfile.name = userProfile.name.split('@')[0]
       }
 
+      // For Facebook login use the bigger profile picture
+      if (userProfile['picture_large']) {
+        userProfile.picture = userProfile['picture_large']
+      }
+
       return userProfile
     }
 

@@ -298,6 +298,10 @@ md-sidemenu-button {
   line-height: 130%;
 }
 
+.stock-safari-fix {
+  flex: 1 0 auto !important;
+}
+
 /* DIALOG */
 .dialog-input {
   width: 100px;

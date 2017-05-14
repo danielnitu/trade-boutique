@@ -8,6 +8,10 @@ var newsClient = new Client()
 
 var YAHOO_NEWS = 'http://finance.yahoo.com/rss/headline?s='
 
+if (process.env.NODE_ENV === 'development') {
+  var config = require('../../.config')
+}
+
 function getNews (symbol, News, cb) {
   newsClient.get(YAHOO_NEWS + symbol, function (data, res) {
     log.info('Connecting to Yahoo News API (' + symbol + '): ' + res.statusCode + ' (' + res.statusMessage + ')')
@@ -58,7 +62,7 @@ function getNews (symbol, News, cb) {
       var args = {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': process.env.RIVER_NEWS_AUTHORIZATION
+          'Authorization': process.env.RIVER_NEWS_AUTHORIZATION || config.RIVER_NEWS_AUTHORIZATION
         }
       }
 

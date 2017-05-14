@@ -1,6 +1,11 @@
 var jwt = require('express-jwt')
-var secret = process.env.AUTH_CLIENT_SECRET
-var audience = process.env.AUTH_CLIENT_ID
+
+if (process.env.NODE_ENV === 'development') {
+  var config = require('../../.config')
+}
+
+var secret = process.env.AUTH_CLIENT_SECRET || config.AUTH_CLIENT_SECRET
+var audience = process.env.AUTH_CLIENT_ID || config.AUTH_CLIENT_ID
 
 module.exports.jwt = jwt({
   secret: new Buffer(secret),

@@ -6,10 +6,12 @@
 
 <md-content layout="column" ng-hide="stock.noCompany">
   <md-card>
-    <md-card-title layout-xs="column">
+    <md-card-title layout-xs="column" class="stock-safari-fix">
 
+      <!-- Avatar, Price, Buy/Sell buttons, Company Name, Price -->
       <div layout="row" layout-sm="column" flex flex-sm="33">
 
+        <!-- Avatar, Buy/Sell buttons -->
         <md-card-title-media layout-align="center center" class="stock-card-media">
 
           <div class="md-media-lg card-media" layout="column" layout-align="center center">
@@ -38,6 +40,7 @@
           </md-card-actions>
 
         </md-card-title-media>
+        <!-- Company Name, Price -->
         <md-card-title-text layout-padding>
 
           <span class="md-headline">{{stock.company.company}}</span>
@@ -83,7 +86,7 @@
         </div>
       </md-card-content>
 
-      <div hide-sm flex></div>
+      <div hide-sm hide-xs flex></div>
 
       <!-- Symbol News -->
       <md-card-content

@@ -5,6 +5,7 @@
   ng-click="sidenav.closeSidenav('left')"
   ng-cloack>
 
+  <!-- Sidenav Logo -->
   <md-toolbar class="md-accent md-hue-3">
     <div class="md-toolbar-tools nav-header">
       <a ng-href="/#/home">
@@ -15,6 +16,7 @@
 
   <md-divider></md-divider>
 
+  <!-- Profile picture, Sidenav Menu -->
   <md-sidemenu>
 
     <div class="nav-profile" layout-padding layout="row">
@@ -28,7 +30,8 @@
       </div>
     </div>
 
-    <md-sidemenu-group>
+    <!-- Trade section - sidenav menu -->
+    <md-sidemenu-group class="stock-safari-fix">
       <md-subheader>Trade</md-subheader>
 
       <md-sidemenu-button ng-hide="true">
@@ -75,6 +78,7 @@
 
     <md-divider></md-divider>
 
+    <!-- More section - sidenav menu -->
     <md-sidemenu-group>
       <md-subheader>More</md-subheader>
 

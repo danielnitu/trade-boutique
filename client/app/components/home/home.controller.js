@@ -20,7 +20,7 @@
     function getRisersFallers (market) {
       vm.loading = true
 
-      if (vm['markets'].includes(market)) {
+      if (isInArray(market, vm.markets)) {
         $http
           .get('/api/risefall/' + market)
           .then(function (res) {
@@ -39,6 +39,10 @@
       } else {
         vm.error = 'No such market: ' + market
       }
+    }
+
+    function isInArray (value, array) {
+      return array.indexOf(value) > -1
     }
   }
 })()
