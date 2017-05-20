@@ -43,6 +43,8 @@ Create a free account and store the Authorization code in a variable named "RIVE
 * [NPM](https://www.npmjs.com/) - Back-end package manager
 * [Bower](https://bower.io/) - Front-end package manager
 
+* [StandardJS](https://standardjs.com/) - Coding style guide
+
 ## Contributing
 
 If you wish to contribute, please let me know and I will send you a TODO list of features that I want to implement in the near future.
